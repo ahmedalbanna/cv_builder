@@ -1,8 +1,24 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { CVState, TemplateType } from '../types/cv'
+import { CVState, TemplateType, CVProfile, CVProfileMetadata } from '../types/cv'
+import {
+  initializeStorage,
+  getActiveProfile,
+  setActiveProfileId,
+  updateProfile,
+  createProfile,
+  deleteProfile,
+  renameProfile,
+  duplicateProfile,
+  getProfilesMetadata,
+  exportProfileAsJSON,
+  importProfileFromJSON,
+  getInitialCVState,
+} from '../utils/cvStorage'
 
 interface CVContextType {
   cvData: CVState
+  currentProfile: CVProfile | null
+  profiles: CVProfileMetadata[]
   updatePersonalInfo: (data: Partial<CVState['personalInfo']>) => void
   addWorkExperience: (data: CVState['workExperience'][0]) => void
   updateWorkExperience: (id: string, data: Partial<CVState['workExperience'][0]>) => void
@@ -24,51 +40,38 @@ interface CVContextType {
   deleteLanguage: (id: string) => void
   setTemplate: (template: TemplateType) => void
   resetCV: () => void
+  // Profile management
+  createNewProfile: (name: string) => void
+  switchProfile: (profileId: string) => void
+  deleteCurrentProfile: (profileId: string) => void
+  renameCurrentProfile: (profileId: string, newName: string) => void
+  duplicateCurrentProfile: (profileId: string) => void
+  exportProfile: (profileId: string) => void
+  importProfile: (jsonData: string) => void
+  refreshProfiles: () => void
 }
 
 const CVContext = createContext<CVContextType | undefined>(undefined)
 
-const STORAGE_KEY = 'cv-builder-data'
-
-const getInitialState = (): CVState => {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored) {
-    try {
-      return JSON.parse(stored)
-    } catch (e) {
-      console.error('Failed to parse stored CV data:', e)
-    }
-  }
-  
-  return {
-    selectedTemplate: 'modern',
-    personalInfo: {
-      fullName: '',
-      jobTitle: '',
-      email: '',
-      phone: '',
-      location: '',
-      website: '',
-      linkedin: '',
-      github: '',
-      summary: '',
-    },
-    workExperience: [],
-    education: [],
-    skills: [],
-    certifications: [],
-    projects: [],
-    languages: [],
-  }
-}
-
 export function CVProvider({ children }: { children: ReactNode }) {
-  const [cvData, setCvData] = useState<CVState>(getInitialState)
+  const [currentProfile, setCurrentProfile] = useState<CVProfile | null>(null)
+  const [profiles, setProfiles] = useState<CVProfileMetadata[]>([])
+  const [cvData, setCvData] = useState<CVState>(getInitialCVState())
 
-  // Save to localStorage whenever data changes
+  // Initialize profiles on mount
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cvData))
-  }, [cvData])
+    const profile = initializeStorage()
+    setCurrentProfile(profile)
+    setCvData(profile.cvData)
+    setProfiles(getProfilesMetadata())
+  }, [])
+
+  // Save to profile storage whenever data changes
+  useEffect(() => {
+    if (currentProfile) {
+      updateProfile(currentProfile.id, cvData)
+    }
+  }, [cvData, currentProfile])
 
   const updatePersonalInfo = (data: Partial<CVState['personalInfo']>) => {
     setCvData(prev => ({
@@ -220,14 +223,85 @@ export function CVProvider({ children }: { children: ReactNode }) {
   }
 
   const resetCV = () => {
-    setCvData(getInitialState())
-    localStorage.removeItem(STORAGE_KEY)
+    setCvData(getInitialCVState())
+  }
+
+  // Profile management functions
+  const refreshProfiles = () => {
+    setProfiles(getProfilesMetadata())
+  }
+
+  const createNewProfile = (name: string) => {
+    const newProfile = createProfile(name)
+    setCurrentProfile(newProfile)
+    setCvData(newProfile.cvData)
+    refreshProfiles()
+  }
+
+  const switchProfile = (profileId: string) => {
+    setActiveProfileId(profileId)
+    const profile = getActiveProfile()
+    if (profile) {
+      setCurrentProfile(profile)
+      setCvData(profile.cvData)
+    }
+  }
+
+  const deleteCurrentProfile = (profileId: string) => {
+    deleteProfile(profileId)
+    const profile = getActiveProfile()
+    if (profile) {
+      setCurrentProfile(profile)
+      setCvData(profile.cvData)
+    } else {
+      // No profiles left, create a new one
+      createNewProfile('My CV')
+    }
+    refreshProfiles()
+  }
+
+  const renameCurrentProfile = (profileId: string, newName: string) => {
+    renameProfile(profileId, newName)
+    const profile = getActiveProfile()
+    if (profile) {
+      setCurrentProfile(profile)
+    }
+    refreshProfiles()
+  }
+
+  const duplicateCurrentProfile = (profileId: string) => {
+    const newProfile = duplicateProfile(profileId)
+    if (newProfile) {
+      setActiveProfileId(newProfile.id)
+      setCurrentProfile(newProfile)
+      setCvData(newProfile.cvData)
+      refreshProfiles()
+    }
+  }
+
+  const exportProfile = (profileId: string) => {
+    const profile = getActiveProfile()
+    if (profile && profile.id === profileId) {
+      exportProfileAsJSON(profile)
+    }
+  }
+
+  const importProfile = (jsonData: string) => {
+    const newProfile = importProfileFromJSON(jsonData)
+    if (newProfile) {
+      setActiveProfileId(newProfile.id)
+      setCurrentProfile(newProfile)
+      setCvData(newProfile.cvData)
+      refreshProfiles()
+    }
   }
 
   return (
     <CVContext.Provider
       value={{
         cvData,
+        currentProfile,
+        profiles,
         updatePersonalInfo,
         addWorkExperience,
         updateWorkExperience,
@@ -249,6 +323,14 @@ export function CVProvider({ children }: { children: ReactNode }) {
         deleteLanguage,
         setTemplate,
         resetCV,
+        createNewProfile,
+        switchProfile,
+        deleteCurrentProfile,
+        renameCurrentProfile,
+        duplicateCurrentProfile,
+        exportProfile,
+        importProfile,
+        refreshProfiles,
       }}
     >
       {children}

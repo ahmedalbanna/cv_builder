@@ -85,3 +85,18 @@ export type TemplateType = 'modern' | 'classic' | 'creative'
 export interface CVState extends CVData {
   selectedTemplate: TemplateType
 }
+
+export interface CVProfile {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
+  cvData: CVState
+}
+
+export interface CVProfileMetadata {
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}

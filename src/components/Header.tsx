@@ -1,6 +1,7 @@
 import { FileText } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
+import CVSwitcher from './CVSwitcher'
 
 export default function Header() {
   const { t } = useTranslation()
@@ -19,7 +20,8 @@ export default function Header() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-sm text-gray-500">
+            <CVSwitcher />
+            <div className="hidden sm:block text-sm text-gray-500">
               {t('app.autoSaved')}
             </div>
             <LanguageSwitcher />

@@ -231,7 +231,7 @@ npm run lint
 
 - [x] local storage
 - [x] Arabic Lanaguage
-- [ ] Multiple CV management
+- [x] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS optimization checker
 - [ ] Cover letter builder

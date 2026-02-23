@@ -233,7 +233,7 @@ The application is fully responsive:
 
 - [x] local storage
 - [x] Arabic Lanaguage
-- [ ] Multiple CV management
+- [x] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS (Applicant Tracking System) optimization checker
 - [ ] Cover letter builder
