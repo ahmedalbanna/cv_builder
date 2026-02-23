@@ -231,7 +231,8 @@ The application is fully responsive:
 
 ## 🚧 Future Enhancements
 
-- [ ] User authentication and cloud storage
+- ✅ local storage
+- [ ] Arabic Lanaguage
 - [ ] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS (Applicant Tracking System) optimization checker
@@ -241,6 +242,7 @@ The application is fully responsive:
 - [ ] Custom color themes
 - [ ] Drag-and-drop section reordering
 - [ ] More template options
+- [ ] Mobile Application (APK, IOS)
 
 ## 📄 License
 

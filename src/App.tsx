@@ -5,6 +5,7 @@ import CVForm from './components/CVForm'
 import CVPreview from './components/CVPreview'
 import TemplateSelector from './components/TemplateSelector'
 import ExportButton from './components/ExportButton'
+import InstallPrompt from './components/InstallPrompt'
 
 function App() {
   const [showPreview, setShowPreview] = useState(true)
@@ -44,6 +45,7 @@ function App() {
             </div>
           </div>
         </div>
+        <InstallPrompt />
       </div>
     </CVProvider>
   )

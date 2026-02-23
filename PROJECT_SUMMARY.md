@@ -229,7 +229,8 @@ npm run lint
 
 ## 🔮 Future Enhancement Ideas
 
-- [ ] User authentication and cloud storage
+- ✅ local storage
+- [ ] Arabic Lanaguage
 - [ ] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS optimization checker
@@ -239,8 +240,7 @@ npm run lint
 - [ ] Custom color themes
 - [ ] Drag-and-drop section reordering
 - [ ] More template options
-- [ ] Collaboration features
-- [ ] Version history
+- [ ] Mobile Application (APK, IOS)
 
 ---
 
