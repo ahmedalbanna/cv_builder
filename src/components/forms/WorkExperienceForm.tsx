@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
+import { useAI } from '../../contexts/AIContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { WorkExperience } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
+import AISuggestionButton from '../AISuggestionButton'
+import AISuggestionPanel from '../AISuggestionPanel'
 
 export default function WorkExperienceForm() {
   const { cvData, addWorkExperience, updateWorkExperience, deleteWorkExperience } = useCV()
+  const { getSuggestion, isConnected } = useAI()
   const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<WorkExperience>>({})
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestionError, setSuggestionError] = useState<string | null>(null)
 
   const resetForm = () => {
     setFormData({})
@@ -45,6 +52,29 @@ export default function WorkExperienceForm() {
     setFormData(exp)
     setEditingId(exp.id)
     setIsAdding(true)
+  }
+
+  const handleGetAISuggestions = async () => {
+    setSuggestionError(null)
+    const response = await getSuggestion({
+      promptType: 'generateJobDescription',
+      params: {
+        jobTitle: formData.position || 'Professional',
+        company: formData.company || 'Company',
+      },
+    })
+
+    if (response.success) {
+      setSuggestions([response.content])
+      setShowSuggestions(true)
+    } else {
+      setSuggestionError(response.error || 'Failed to generate suggestions')
+      setShowSuggestions(true)
+    }
+  }
+
+  const handleApplySuggestion = (suggestion: string) => {
+    setFormData({ ...formData, description: suggestion })
   }
 
   return (
@@ -158,7 +188,16 @@ export default function WorkExperienceForm() {
           </div>
 
           <div>
-            <label className="label-text">{t('experience.description')}</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="label-text">{t('experience.description')}</label>
+              {isConnected && formData.position && formData.company && (
+                <AISuggestionButton
+                  onClick={handleGetAISuggestions}
+                  size="sm"
+                  label="Generate with AI"
+                />
+              )}
+            </div>
             <textarea
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -166,6 +205,11 @@ export default function WorkExperienceForm() {
               rows={4}
               placeholder={t('experience.placeholders.description')}
             />
+            {!isConnected && (
+              <p className="text-xs text-gray-500 mt-1">
+                💡 Connect to Ollama to get AI-powered suggestions
+              </p>
+            )}
           </div>
 
           <div className="flex gap-2">
@@ -180,6 +224,16 @@ export default function WorkExperienceForm() {
           </div>
         </div>
       )}
+
+      <AISuggestionPanel
+        isOpen={showSuggestions}
+        onClose={() => setShowSuggestions(false)}
+        suggestions={suggestions}
+        onApply={handleApplySuggestion}
+        onRetry={handleGetAISuggestions}
+        title="AI Job Description Suggestions"
+        error={suggestionError}
+      />
     </div>
   )
 }

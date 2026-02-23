@@ -1,11 +1,48 @@
+import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
+import { useAI } from '../../contexts/AIContext'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import AISuggestionButton from '../AISuggestionButton'
+import AISuggestionPanel from '../AISuggestionPanel'
 
 export default function PersonalInfoForm() {
   const { cvData, updatePersonalInfo } = useCV()
+  const { getSuggestion, isConnected } = useAI()
   const { personalInfo } = cvData
   const { t } = useTranslation()
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestionError, setSuggestionError] = useState<string | null>(null)
+
+  const handleGetAISuggestions = async () => {
+    setSuggestionError(null)
+    
+    // Calculate years of experience from work history
+    const yearsOfExperience = cvData.workExperience.length > 0 
+      ? `${cvData.workExperience.length}+ years` 
+      : 'Several years'
+    
+    const response = await getSuggestion({
+      promptType: 'professionalSummary',
+      params: {
+        jobTitle: personalInfo.jobTitle || 'Professional',
+        experience: yearsOfExperience,
+      },
+    })
+
+    if (response.success) {
+      setSuggestions([response.content])
+      setShowSuggestions(true)
+    } else {
+      setSuggestionError(response.error || 'Failed to generate suggestions')
+      setShowSuggestions(true)
+    }
+  }
+
+  const handleApplySuggestion = (suggestion: string) => {
+    updatePersonalInfo({ summary: suggestion })
+  }
 
   return (
     <div className="space-y-4">
@@ -125,7 +162,16 @@ export default function PersonalInfoForm() {
       </div>
 
       <div>
-        <label className="label-text">{t('personalInfo.summary')} *</label>
+        <div className="flex items-center justify-between mb-1">
+          <label className="label-text">{t('personalInfo.summary')} *</label>
+          {isConnected && personalInfo.jobTitle && (
+            <AISuggestionButton
+              onClick={handleGetAISuggestions}
+              size="sm"
+              label="Generate with AI"
+            />
+          )}
+        </div>
         <textarea
           value={personalInfo.summary}
           onChange={(e) => updatePersonalInfo({ summary: e.target.value })}
@@ -137,7 +183,22 @@ export default function PersonalInfoForm() {
         <p className="text-xs text-gray-500 mt-1">
           {personalInfo.summary.length} / 500 characters
         </p>
+        {!isConnected && (
+          <p className="text-xs text-gray-500 mt-1">
+            💡 Connect to Ollama to get AI-powered professional summary suggestions
+          </p>
+        )}
       </div>
+
+      <AISuggestionPanel
+        isOpen={showSuggestions}
+        onClose={() => setShowSuggestions(false)}
+        suggestions={suggestions}
+        onApply={handleApplySuggestion}
+        onRetry={handleGetAISuggestions}
+        title="AI Professional Summary Suggestions"
+        error={suggestionError}
+      />
     </div>
   )
 }

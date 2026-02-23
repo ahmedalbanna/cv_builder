@@ -232,7 +232,7 @@ npm run lint
 - [x] local storage
 - [x] Arabic Lanaguage
 - [x] Multiple CV management
-- [ ] AI-powered content suggestions
+- [x] AI-powered content suggestions
 - [ ] ATS optimization checker
 - [ ] Cover letter builder
 - [ ] Import from LinkedIn

@@ -1,17 +1,24 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
+import { useAI } from '../../contexts/AIContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { Project } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
+import AISuggestionButton from '../AISuggestionButton'
+import AISuggestionPanel from '../AISuggestionPanel'
 
 export default function ProjectsForm() {
   const { cvData, addProject, updateProject, deleteProject } = useCV()
+  const { getSuggestion, isConnected } = useAI()
   const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<Project>>({})
   const [techInput, setTechInput] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggestionError, setSuggestionError] = useState<string | null>(null)
 
   const resetForm = () => {
     setFormData({})
@@ -61,6 +68,29 @@ export default function ProjectsForm() {
       ...formData,
       technologies: technologies.filter((_, i) => i !== index),
     })
+  }
+
+  const handleGetAISuggestions = async () => {
+    setSuggestionError(null)
+    const response = await getSuggestion({
+      promptType: 'improveProjectDescription',
+      params: {
+        projectName: formData.name || 'Project',
+        currentDescription: formData.description || '',
+      },
+    })
+
+    if (response.success) {
+      setSuggestions([response.content])
+      setShowSuggestions(true)
+    } else {
+      setSuggestionError(response.error || 'Failed to generate suggestions')
+      setShowSuggestions(true)
+    }
+  }
+
+  const handleApplySuggestion = (suggestion: string) => {
+    setFormData({ ...formData, description: suggestion })
   }
 
   return (
@@ -132,7 +162,16 @@ export default function ProjectsForm() {
           </div>
 
           <div>
-            <label className="label-text">{t('projects.description')} *</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="label-text">{t('projects.description')} *</label>
+              {isConnected && formData.name && (
+                <AISuggestionButton
+                  onClick={handleGetAISuggestions}
+                  size="sm"
+                  label="Improve with AI"
+                />
+              )}
+            </div>
             <textarea
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -140,6 +179,11 @@ export default function ProjectsForm() {
               rows={3}
               placeholder={t('projects.placeholders.description')}
             />
+            {!isConnected && (
+              <p className="text-xs text-gray-500 mt-1">
+                💡 Connect to Ollama to get AI-powered description suggestions
+              </p>
+            )}
           </div>
 
           <div>
@@ -212,6 +256,16 @@ export default function ProjectsForm() {
           </div>
         </div>
       )}
+
+      <AISuggestionPanel
+        isOpen={showSuggestions}
+        onClose={() => setShowSuggestions(false)}
+        suggestions={suggestions}
+        onApply={handleApplySuggestion}
+        onRetry={handleGetAISuggestions}
+        title="AI Project Description Suggestions"
+        error={suggestionError}
+      />
     </div>
   )
 }

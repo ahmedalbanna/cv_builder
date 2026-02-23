@@ -11,9 +11,11 @@ A modern, feature-rich CV/Resume builder built with React, TypeScript, and Tailw
 ### Core Functionality
 - **Real-time Preview**: See your CV update instantly as you type
 - **Multiple Templates**: Choose from 3 professional templates (Modern, Classic, Creative)
+- **AI-Powered Suggestions**: Generate professional content with local AI (Ollama)
 - **PDF Export**: Download your CV as a high-quality PDF
 - **Auto-save**: Your data is automatically saved in browser local storage
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+- **Privacy First**: All AI processing happens locally on your machine
 
 ### CV Sections
 - ✅ Personal Information (with contact details and social links)
@@ -153,10 +155,12 @@ cv-builder/
 ### 1. Fill in Personal Information
 - Add your name, contact details, and professional summary
 - Include links to your website, LinkedIn, and GitHub
+- **AI Tip**: Click "Generate with AI" to create a professional summary
 
 ### 2. Add Work Experience
 - Click "Add Work Experience"
 - Fill in company, position, dates, and description
+- **AI Tip**: Use "Generate with AI" to create impactful job descriptions
 - Edit or delete entries as needed
 
 ### 3. Add Education
@@ -171,6 +175,7 @@ cv-builder/
 
 ### 5. Optional Sections
 - **Projects**: Showcase your work with descriptions and technologies
+  - **AI Tip**: Use "Improve with AI" to enhance project descriptions
 - **Certifications**: Add professional certifications
 - **Languages**: List languages you speak with proficiency levels
 
@@ -234,7 +239,7 @@ The application is fully responsive:
 - [x] local storage
 - [x] Arabic Lanaguage
 - [x] Multiple CV management
-- [ ] AI-powered content suggestions
+- [x] AI-powered content suggestions
 - [ ] ATS (Applicant Tracking System) optimization checker
 - [ ] Cover letter builder
 - [ ] Import from LinkedIn
