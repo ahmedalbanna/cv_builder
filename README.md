@@ -231,8 +231,8 @@ The application is fully responsive:
 
 ## 🚧 Future Enhancements
 
-- ✅ local storage
-- [ ] Arabic Lanaguage
+- [x] local storage
+- [x] Arabic Lanaguage
 - [ ] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS (Applicant Tracking System) optimization checker

@@ -3,9 +3,11 @@ import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { Certification } from '../../types/cv'
+import { useTranslation } from 'react-i18next'
 
 export default function CertificationsForm() {
   const { cvData, addCertification, updateCertification, deleteCertification } = useCV()
+  const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<Certification>>({})
@@ -83,7 +85,7 @@ export default function CertificationsForm() {
           className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-600 transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="w-5 h-5" />
-          Add Certification
+          {t('certifications.addCertification')}
         </button>
       )}
 
@@ -91,30 +93,30 @@ export default function CertificationsForm() {
         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="label-text">Certification Name *</label>
+              <label className="label-text">{t('certifications.certificationName')} *</label>
               <input
                 type="text"
                 value={formData.name || ''}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="input-field"
-                placeholder="AWS Certified Solutions Architect"
+                placeholder={t('certifications.placeholders.certificationName')}
               />
             </div>
             <div>
-              <label className="label-text">Issuing Organization *</label>
+              <label className="label-text">{t('certifications.issuer')} *</label>
               <input
                 type="text"
                 value={formData.issuer || ''}
                 onChange={(e) => setFormData({ ...formData, issuer: e.target.value })}
                 className="input-field"
-                placeholder="Amazon Web Services"
+                placeholder={t('certifications.placeholders.issuer')}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="label-text">Issue Date *</label>
+              <label className="label-text">{t('certifications.issueDate')} *</label>
               <input
                 type="month"
                 value={formData.date || ''}
@@ -123,7 +125,7 @@ export default function CertificationsForm() {
               />
             </div>
             <div>
-              <label className="label-text">Expiry Date (optional)</label>
+              <label className="label-text">{t('certifications.expiryDate')}</label>
               <input
                 type="month"
                 value={formData.expiryDate || ''}
@@ -134,7 +136,7 @@ export default function CertificationsForm() {
           </div>
 
           <div>
-            <label className="label-text">Credential ID (optional)</label>
+            <label className="label-text">Credential ID</label>
             <input
               type="text"
               value={formData.credentialId || ''}
@@ -145,24 +147,24 @@ export default function CertificationsForm() {
           </div>
 
           <div>
-            <label className="label-text">Credential URL (optional)</label>
+            <label className="label-text">{t('certifications.credentialUrl')}</label>
             <input
               type="url"
               value={formData.url || ''}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               className="input-field"
-              placeholder="https://credentials.example.com/verify/..."
+              placeholder={t('certifications.placeholders.credentialUrl')}
             />
           </div>
 
           <div className="flex gap-2">
             <button onClick={handleSubmit} className="btn-primary flex items-center gap-2">
               <Check className="w-4 h-4" />
-              {editingId ? 'Update' : 'Add'}
+              {editingId ? t('actions.save') : t('actions.add')}
             </button>
             <button onClick={resetForm} className="btn-secondary flex items-center gap-2">
               <X className="w-4 h-4" />
-              Cancel
+              {t('actions.cancel')}
             </button>
           </div>
         </div>

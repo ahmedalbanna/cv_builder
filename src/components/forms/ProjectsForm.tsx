@@ -3,9 +3,11 @@ import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { Project } from '../../types/cv'
+import { useTranslation } from 'react-i18next'
 
 export default function ProjectsForm() {
   const { cvData, addProject, updateProject, deleteProject } = useCV()
+  const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<Project>>({})
@@ -112,36 +114,36 @@ export default function ProjectsForm() {
           className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-600 transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="w-5 h-5" />
-          Add Project
+          {t('projects.addProject')}
         </button>
       )}
 
       {isAdding && (
         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4">
           <div>
-            <label className="label-text">Project Name *</label>
+            <label className="label-text">{t('projects.projectName')} *</label>
             <input
               type="text"
               value={formData.name || ''}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="input-field"
-              placeholder="My Awesome Project"
+              placeholder={t('projects.placeholders.projectName')}
             />
           </div>
 
           <div>
-            <label className="label-text">Description *</label>
+            <label className="label-text">{t('projects.description')} *</label>
             <textarea
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="input-field resize-none"
               rows={3}
-              placeholder="Brief description of the project..."
+              placeholder={t('projects.placeholders.description')}
             />
           </div>
 
           <div>
-            <label className="label-text">Technologies</label>
+            <label className="label-text">{t('projects.technologies')}</label>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -149,7 +151,7 @@ export default function ProjectsForm() {
                 onChange={(e) => setTechInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
                 className="input-field"
-                placeholder="e.g., React, Node.js"
+                placeholder={t('projects.placeholders.technologies')}
               />
               <button
                 onClick={addTechnology}
@@ -177,13 +179,13 @@ export default function ProjectsForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="label-text">Project URL</label>
+              <label className="label-text">{t('projects.projectUrl')}</label>
               <input
                 type="url"
                 value={formData.url || ''}
                 onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                 className="input-field"
-                placeholder="https://project.com"
+                placeholder={t('projects.placeholders.projectUrl')}
               />
             </div>
             <div>
@@ -201,11 +203,11 @@ export default function ProjectsForm() {
           <div className="flex gap-2">
             <button onClick={handleSubmit} className="btn-primary flex items-center gap-2">
               <Check className="w-4 h-4" />
-              {editingId ? 'Update' : 'Add'}
+              {editingId ? t('actions.save') : t('actions.add')}
             </button>
             <button onClick={resetForm} className="btn-secondary flex items-center gap-2">
               <X className="w-4 h-4" />
-              Cancel
+              {t('actions.cancel')}
             </button>
           </div>
         </div>

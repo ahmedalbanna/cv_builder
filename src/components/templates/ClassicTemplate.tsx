@@ -1,6 +1,7 @@
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   data: CVState
@@ -8,6 +9,8 @@ interface Props {
 
 export default function ClassicTemplate({ data }: Props) {
   const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { t, i18n } = useTranslation()
+  const isRTL = i18n.language === 'ar'
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -18,7 +21,7 @@ export default function ClassicTemplate({ data }: Props) {
   }, {} as Record<string, typeof skills>)
 
   return (
-    <div className="bg-white shadow-lg font-serif" id="cv-preview">
+    <div className={`bg-white shadow-lg font-serif ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="p-8">
         {/* Header */}
         <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
@@ -64,7 +67,7 @@ export default function ClassicTemplate({ data }: Props) {
         {personalInfo.summary && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide">
-              Summary
+              {t('preview.summary')}
             </h2>
             <p className="text-gray-700 leading-relaxed text-justify">{personalInfo.summary}</p>
           </section>
@@ -74,7 +77,7 @@ export default function ClassicTemplate({ data }: Props) {
         {workExperience.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Professional Experience
+              {t('preview.experience')}
             </h2>
             <div className="space-y-4">
               {workExperience.map((exp) => (
@@ -104,7 +107,7 @@ export default function ClassicTemplate({ data }: Props) {
         {education.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Education
+              {t('preview.education')}
             </h2>
             <div className="space-y-3">
               {education.map((edu) => (
@@ -134,7 +137,7 @@ export default function ClassicTemplate({ data }: Props) {
         {skills.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Skills
+              {t('preview.skills')}
             </h2>
             <div className="space-y-2">
               {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
@@ -157,7 +160,7 @@ export default function ClassicTemplate({ data }: Props) {
         {projects.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Projects
+              {t('preview.projects')}
             </h2>
             <div className="space-y-3">
               {projects.map((project) => (
@@ -179,7 +182,7 @@ export default function ClassicTemplate({ data }: Props) {
         {certifications.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Certifications
+              {t('preview.certifications')}
             </h2>
             <div className="space-y-2">
               {certifications.map((cert) => (
@@ -196,7 +199,7 @@ export default function ClassicTemplate({ data }: Props) {
         {languages.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
-              Languages
+              {t('preview.languages')}
             </h2>
             <p className="text-gray-700">
               {languages.map((lang, idx) => (

@@ -1,6 +1,7 @@
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github, Briefcase, GraduationCap, FolderOpen } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   data: CVState
@@ -8,6 +9,8 @@ interface Props {
 
 export default function CreativeTemplate({ data }: Props) {
   const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { t, i18n } = useTranslation()
+  const isRTL = i18n.language === 'ar'
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -18,7 +21,7 @@ export default function CreativeTemplate({ data }: Props) {
   }, {} as Record<string, typeof skills>)
 
   return (
-    <div className="bg-white shadow-lg" id="cv-preview">
+    <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="grid grid-cols-3 min-h-screen">
         {/* Left Sidebar */}
         <div className="col-span-1 bg-gradient-to-b from-gray-800 to-gray-900 text-white p-6">
@@ -30,7 +33,7 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Contact Info */}
           <section className="mb-6">
             <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
-              Contact
+              {t('preview.contact')}
             </h2>
             <div className="space-y-2 text-sm">
               {personalInfo.email && (
@@ -76,7 +79,7 @@ export default function CreativeTemplate({ data }: Props) {
           {skills.length > 0 && (
             <section className="mb-6">
               <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
-                Skills
+                {t('preview.skills')}
               </h2>
               <div className="space-y-3">
                 {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
@@ -106,7 +109,7 @@ export default function CreativeTemplate({ data }: Props) {
           {languages.length > 0 && (
             <section className="mb-6">
               <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
-                Languages
+                {t('preview.languages')}
               </h2>
               <div className="space-y-2 text-sm">
                 {languages.map((lang) => (
@@ -125,7 +128,7 @@ export default function CreativeTemplate({ data }: Props) {
           {certifications.length > 0 && (
             <section className="mb-6">
               <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
-                Certifications
+                {t('preview.certifications')}
               </h2>
               <div className="space-y-2 text-sm">
                 {certifications.map((cert) => (
@@ -147,7 +150,7 @@ export default function CreativeTemplate({ data }: Props) {
             <section className="mb-8">
               <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                 <div className="h-8 w-1 bg-primary-600"></div>
-                Profile
+                {t('preview.summary')}
               </h2>
               <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
             </section>
@@ -159,7 +162,7 @@ export default function CreativeTemplate({ data }: Props) {
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <div className="h-8 w-1 bg-primary-600"></div>
                 <Briefcase className="w-5 h-5" />
-                Experience
+                {t('preview.experience')}
               </h2>
               <div className="space-y-5">
                 {workExperience.map((exp) => (
@@ -188,7 +191,7 @@ export default function CreativeTemplate({ data }: Props) {
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <div className="h-8 w-1 bg-primary-600"></div>
                 <GraduationCap className="w-5 h-5" />
-                Education
+                {t('preview.education')}
               </h2>
               <div className="space-y-4">
                 {education.map((edu) => (
@@ -219,7 +222,7 @@ export default function CreativeTemplate({ data }: Props) {
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <div className="h-8 w-1 bg-primary-600"></div>
                 <FolderOpen className="w-5 h-5" />
-                Projects
+                {t('preview.projects')}
               </h2>
               <div className="space-y-4">
                 {projects.map((project) => (

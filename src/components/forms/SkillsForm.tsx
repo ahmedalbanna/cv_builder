@@ -3,9 +3,11 @@ import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, X } from 'lucide-react'
 import { Skill } from '../../types/cv'
+import { useTranslation } from 'react-i18next'
 
 export default function SkillsForm() {
   const { cvData, addSkill, deleteSkill } = useCV()
+  const { t } = useTranslation()
   const [skillName, setSkillName] = useState('')
   const [category, setCategory] = useState<Skill['category']>('technical')
   const [level, setLevel] = useState<Skill['level']>('intermediate')
@@ -40,10 +42,10 @@ export default function SkillsForm() {
   }, {} as Record<string, Skill[]>)
 
   const categoryLabels = {
-    technical: 'Technical Skills',
-    soft: 'Soft Skills',
-    language: 'Language Skills',
-    other: 'Other Skills',
+    technical: t('skills.categories.technical') || 'Technical Skills',
+    soft: t('skills.categories.soft') || 'Soft Skills',
+    language: t('skills.categories.language') || 'Language Skills',
+    other: t('skills.categories.other') || 'Other Skills',
   }
 
   return (
@@ -51,40 +53,40 @@ export default function SkillsForm() {
       {/* Add Skill Form */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div className="md:col-span-2">
-          <label className="label-text">Skill Name</label>
+          <label className="label-text">{t('skills.skillName')}</label>
           <input
             type="text"
             value={skillName}
             onChange={(e) => setSkillName(e.target.value)}
             onKeyPress={handleKeyPress}
             className="input-field"
-            placeholder="e.g., JavaScript, Leadership"
+            placeholder={t('skills.placeholders.skillName')}
           />
         </div>
         <div>
-          <label className="label-text">Category</label>
+          <label className="label-text">{t('skills.category')}</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as Skill['category'])}
             className="input-field"
           >
-            <option value="technical">Technical</option>
-            <option value="soft">Soft Skills</option>
-            <option value="language">Language</option>
-            <option value="other">Other</option>
+            <option value="technical">{t('skills.categories.technical')}</option>
+            <option value="soft">{t('skills.categories.soft')}</option>
+            <option value="language">{t('skills.categories.language')}</option>
+            <option value="other">{t('skills.categories.other')}</option>
           </select>
         </div>
         <div>
-          <label className="label-text">Level</label>
+          <label className="label-text">{t('skills.level')}</label>
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value as Skill['level'])}
             className="input-field"
           >
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="expert">Expert</option>
+            <option value="beginner">{t('skills.levels.beginner')}</option>
+            <option value="intermediate">{t('skills.levels.intermediate')}</option>
+            <option value="advanced">{t('skills.levels.advanced')}</option>
+            <option value="expert">{t('skills.levels.expert')}</option>
           </select>
         </div>
       </div>
@@ -94,7 +96,7 @@ export default function SkillsForm() {
         className="btn-primary flex items-center gap-2"
       >
         <Plus className="w-4 h-4" />
-        Add Skill
+        {t('skills.addSkill')}
       </button>
 
       {/* Display Skills by Category */}
@@ -133,7 +135,7 @@ export default function SkillsForm() {
 
       {cvData.skills.length === 0 && (
         <p className="text-center text-gray-500 py-8">
-          No skills added yet. Add your first skill above!
+          {t('skills.noSkills') || 'No skills added yet. Add your first skill above!'}
         </p>
       )}
     </div>

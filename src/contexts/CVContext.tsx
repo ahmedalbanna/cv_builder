@@ -44,6 +44,7 @@ const getInitialState = (): CVState => {
     selectedTemplate: 'modern',
     personalInfo: {
       fullName: '',
+      jobTitle: '',
       email: '',
       phone: '',
       location: '',

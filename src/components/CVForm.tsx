@@ -7,23 +7,26 @@ import CertificationsForm from './forms/CertificationsForm'
 import ProjectsForm from './forms/ProjectsForm'
 import LanguagesForm from './forms/LanguagesForm'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Section {
   id: string
-  title: string
+  titleKey: string
   component: React.ComponentType
   isOpen: boolean
 }
 
 export default function CVForm() {
+  const { t } = useTranslation()
+  
   const [sections, setSections] = useState<Section[]>([
-    { id: 'personal', title: 'Personal Information', component: PersonalInfoForm, isOpen: true },
-    { id: 'experience', title: 'Work Experience', component: WorkExperienceForm, isOpen: true },
-    { id: 'education', title: 'Education', component: EducationForm, isOpen: true },
-    { id: 'skills', title: 'Skills', component: SkillsForm, isOpen: true },
-    { id: 'projects', title: 'Projects', component: ProjectsForm, isOpen: false },
-    { id: 'certifications', title: 'Certifications', component: CertificationsForm, isOpen: false },
-    { id: 'languages', title: 'Languages', component: LanguagesForm, isOpen: false },
+    { id: 'personal', titleKey: 'personalInfo.title', component: PersonalInfoForm, isOpen: true },
+    { id: 'experience', titleKey: 'experience.title', component: WorkExperienceForm, isOpen: true },
+    { id: 'education', titleKey: 'education.title', component: EducationForm, isOpen: true },
+    { id: 'skills', titleKey: 'skills.title', component: SkillsForm, isOpen: true },
+    { id: 'projects', titleKey: 'projects.title', component: ProjectsForm, isOpen: false },
+    { id: 'certifications', titleKey: 'certifications.title', component: CertificationsForm, isOpen: false },
+    { id: 'languages', titleKey: 'languages.title', component: LanguagesForm, isOpen: false },
   ])
 
   const toggleSection = (id: string) => {
@@ -44,7 +47,7 @@ export default function CVForm() {
               onClick={() => toggleSection(section.id)}
               className="w-full flex items-center justify-between mb-4 text-left"
             >
-              <h2 className="text-xl font-semibold text-gray-800">{section.title}</h2>
+              <h2 className="text-xl font-semibold text-gray-800">{t(section.titleKey)}</h2>
               {section.isOpen ? (
                 <ChevronUp className="w-5 h-5 text-gray-500" />
               ) : (

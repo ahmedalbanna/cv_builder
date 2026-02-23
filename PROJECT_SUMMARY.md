@@ -229,8 +229,8 @@ npm run lint
 
 ## 🔮 Future Enhancement Ideas
 
-- ✅ local storage
-- [ ] Arabic Lanaguage
+- [x] local storage
+- [x] Arabic Lanaguage
 - [ ] Multiple CV management
 - [ ] AI-powered content suggestions
 - [ ] ATS optimization checker

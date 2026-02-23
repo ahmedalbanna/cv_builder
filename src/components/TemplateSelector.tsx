@@ -1,19 +1,21 @@
 import { useCV } from '../contexts/CVContext'
 import { TemplateType } from '../types/cv'
 import { Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function TemplateSelector() {
   const { cvData, setTemplate } = useCV()
+  const { t } = useTranslation()
 
   const templates: { id: TemplateType; name: string; description: string }[] = [
-    { id: 'modern', name: 'Modern', description: 'Clean and contemporary design with color accents' },
-    { id: 'classic', name: 'Classic', description: 'Traditional professional layout' },
-    { id: 'creative', name: 'Creative', description: 'Two-column design with sidebar' },
+    { id: 'modern', name: t('templates.modern'), description: t('templates.modernDesc') },
+    { id: 'classic', name: t('templates.classic'), description: t('templates.classicDesc') },
+    { id: 'creative', name: t('templates.creative'), description: t('templates.creativeDesc') },
   ]
 
   return (
     <div>
-      <label className="label-text mb-2">Select Template</label>
+      <label className="label-text mb-2">{t('templates.title')}</label>
       <div className="flex gap-3">
         {templates.map((template) => (
           <button

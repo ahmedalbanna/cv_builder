@@ -117,13 +117,13 @@ All platforms above provide HTTPS automatically.
 
 After deploying, verify:
 
-- [ ] Website loads correctly
-- [ ] All icons display properly
-- [ ] PWA install prompt appears
-- [ ] Service worker registers (check DevTools)
-- [ ] Offline mode works
-- [ ] PDF export works
-- [ ] Data saves to localStorage
+- [x] Website loads correctly
+- [x] All icons display properly
+- [x] PWA install prompt appears
+- [x] Service worker registers (check DevTools)
+- [x] Offline mode works
+- [x] PDF export works
+- [x] Data saves to localStorage
 
 ---
 

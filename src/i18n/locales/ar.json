@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "منشئ السيرة الذاتية",
+    "subtitle": "أنشئ سيرتك الذاتية الاحترافية",
+    "autoSaved": "تم الحفظ تلقائياً محلياً"
+  },
+  "nav": {
+    "form": "تحرير المعلومات",
+    "preview": "معاينة"
+  },
+  "actions": {
+    "add": "إضافة",
+    "remove": "إزالة",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "export": "تصدير إلى PDF",
+    "exporting": "جاري إنشاء PDF...",
+    "download": "تحميل",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "templates": {
+    "title": "اختر القالب",
+    "modern": "عصري",
+    "classic": "كلاسيكي",
+    "creative": "إبداعي",
+    "modernDesc": "تصميم نظيف وعصري",
+    "classicDesc": "تخطيط احترافي تقليدي",
+    "creativeDesc": "تصميم جريء مع شريط جانبي"
+  },
+  "personalInfo": {
+    "title": "المعلومات الشخصية",
+    "fullName": "الاسم الكامل",
+    "jobTitle": "المسمى الوظيفي",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "location": "الموقع",
+    "website": "الموقع الإلكتروني",
+    "linkedin": "لينكد إن",
+    "github": "جيت هب",
+    "summary": "الملخص المهني",
+    "placeholders": {
+      "fullName": "أحمد محمد",
+      "jobTitle": "مهندس برمجيات",
+      "email": "ahmad@example.com",
+      "phone": "+966 50 123 4567",
+      "location": "الرياض، المملكة العربية السعودية",
+      "website": "https://ahmadmohammed.com",
+      "linkedin": "https://linkedin.com/in/ahmadmohammed",
+      "github": "https://github.com/ahmadmohammed",
+      "summary": "محترف ذو خبرة في مجال..."
+    }
+  },
+  "experience": {
+    "title": "الخبرة العملية",
+    "addExperience": "إضافة خبرة",
+    "position": "المنصب",
+    "company": "الشركة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "currentJob": "أعمل هنا حالياً",
+    "description": "الوصف",
+    "placeholders": {
+      "position": "مهندس برمجيات أول",
+      "company": "شركة التقنية المحدودة",
+      "description": "• قيادة تطوير...\n• تحسين الأداء بنسبة...\n• التعاون مع..."
+    }
+  },
+  "education": {
+    "title": "التعليم",
+    "addEducation": "إضافة مؤهل تعليمي",
+    "degree": "الدرجة العلمية",
+    "institution": "المؤسسة التعليمية",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "currentlyStudying": "أدرس هنا حالياً",
+    "description": "الوصف",
+    "placeholders": {
+      "degree": "بكالوريوس علوم الحاسب",
+      "institution": "جامعة الملك سعود",
+      "description": "المعدل التراكمي: 4.5/5.0\nالمقررات ذات الصلة: الخوارزميات، هياكل البيانات..."
+    }
+  },
+  "skills": {
+    "title": "المهارات",
+    "addSkill": "إضافة مهارة",
+    "skillName": "اسم المهارة",
+    "category": "الفئة",
+    "level": "المستوى",
+    "levels": {
+      "beginner": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم",
+      "expert": "خبير"
+    },
+    "categories": {
+      "technical": "تقنية",
+      "soft": "مهارات شخصية",
+      "language": "لغات",
+      "other": "أخرى"
+    },
+    "placeholders": {
+      "skillName": "مثال: جافا سكريبت، القيادة"
+    },
+    "noSkills": "لم تتم إضافة مهارات بعد. أضف مهارتك الأولى أعلاه!"
+  },
+  "education": {
+    "title": "التعليم",
+    "addEducation": "إضافة مؤهل تعليمي",
+    "degree": "الدرجة العلمية",
+    "institution": "المؤسسة التعليمية",
+    "field": "مجال الدراسة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "currentlyStudying": "أدرس هنا حالياً",
+    "description": "الوصف",
+    "placeholders": {
+      "degree": "بكالوريوس علوم الحاسب",
+      "institution": "جامعة الملك سعود",
+      "field": "علوم الحاسب",
+      "description": "المعدل التراكمي: 4.5/5.0\nالمقررات ذات الصلة: الخوارزميات، هياكل البيانات..."
+    }
+  },
+  "projects": {
+    "title": "المشاريع",
+    "addProject": "إضافة مشروع",
+    "projectName": "اسم المشروع",
+    "projectUrl": "رابط المشروع",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "ongoing": "مشروع مستمر",
+    "description": "الوصف",
+    "technologies": "التقنيات",
+    "placeholders": {
+      "projectName": "منصة التجارة الإلكترونية",
+      "projectUrl": "https://github.com/username/project",
+      "description": "بناء منصة تجارة إلكترونية متكاملة باستخدام...",
+      "technologies": "رياكت، نود جي إس، مونجو دي بي"
+    }
+  },
+  "certifications": {
+    "title": "الشهادات",
+    "addCertification": "إضافة شهادة",
+    "certificationName": "اسم الشهادة",
+    "issuer": "الجهة المانحة",
+    "issueDate": "تاريخ الإصدار",
+    "expiryDate": "تاريخ الانتهاء",
+    "noExpiry": "لا تنتهي صلاحيتها",
+    "credentialUrl": "رابط الشهادة",
+    "placeholders": {
+      "certificationName": "AWS معماري حلول معتمد",
+      "issuer": "أمازون ويب سيرفيسز",
+      "credentialUrl": "https://www.credly.com/badges/..."
+    }
+  },
+  "languages": {
+    "title": "اللغات",
+    "addLanguage": "إضافة لغة",
+    "languageName": "اللغة",
+    "proficiency": "مستوى الإتقان",
+    "levels": {
+      "basic": "أساسي",
+      "intermediate": "متوسط",
+      "conversational": "محادثة",
+      "professional": "احترافي",
+      "fluent": "طليق",
+      "native": "لغة أم"
+    },
+    "placeholders": {
+      "languageName": "مثال: العربية، الإنجليزية"
+    },
+    "noLanguages": "لم تتم إضافة لغات بعد. أضف لغتك الأولى أعلاه!"
+  },
+  "preview": {
+    "contact": "التواصل",
+    "summary": "الملخص",
+    "experience": "الخبرة",
+    "education": "التعليم",
+    "skills": "المهارات",
+    "projects": "المشاريع",
+    "certifications": "الشهادات",
+    "languages": "اللغات",
+    "present": "حتى الآن",
+    "expires": "تنتهي",
+    "noExpiry": "لا تنتهي"
+  }
+}

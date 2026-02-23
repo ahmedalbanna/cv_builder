@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { useCV } from '../contexts/CVContext'
 import { Download, Loader2 } from 'lucide-react'
 import { exportToPDF } from '../utils/pdfExport'
+import { useTranslation } from 'react-i18next'
 
 export default function ExportButton() {
   const { cvData } = useCV()
+  const { t } = useTranslation()
   const [isExporting, setIsExporting] = useState(false)
 
   const handleExport = async () => {
@@ -28,12 +30,12 @@ export default function ExportButton() {
       {isExporting ? (
         <>
           <Loader2 className="w-5 h-5 animate-spin" />
-          Generating PDF...
+          {t('actions.exporting')}
         </>
       ) : (
         <>
           <Download className="w-5 h-5" />
-          Export to PDF
+          {t('actions.export')}
         </>
       )}
     </button>

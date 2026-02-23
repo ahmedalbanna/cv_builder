@@ -1,6 +1,10 @@
 import { FileText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
+  const { t } = useTranslation()
+  
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm no-print">
       <div className="container mx-auto px-4 py-6">
@@ -10,12 +14,15 @@ export default function Header() {
               <FileText className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">CV Builder</h1>
-              <p className="text-sm text-gray-600">Create your professional resume</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t('app.title')}</h1>
+              <p className="text-sm text-gray-600">{t('app.subtitle')}</p>
             </div>
           </div>
-          <div className="text-sm text-gray-500">
-            Auto-saved locally
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500">
+              {t('app.autoSaved')}
+            </div>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>

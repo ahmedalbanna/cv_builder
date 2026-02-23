@@ -1,6 +1,7 @@
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   data: CVState
@@ -8,6 +9,8 @@ interface Props {
 
 export default function ModernTemplate({ data }: Props) {
   const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { t, i18n } = useTranslation()
+  const isRTL = i18n.language === 'ar'
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -18,7 +21,7 @@ export default function ModernTemplate({ data }: Props) {
   }, {} as Record<string, typeof skills>)
 
   return (
-    <div className="bg-white shadow-lg" id="cv-preview">
+    <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-8">
         <h1 className="text-4xl font-bold mb-2">{personalInfo.fullName || 'Your Name'}</h1>
@@ -69,7 +72,7 @@ export default function ModernTemplate({ data }: Props) {
         {personalInfo.summary && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Professional Summary
+              {t('preview.summary')}
             </h2>
             <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
           </section>
@@ -79,7 +82,7 @@ export default function ModernTemplate({ data }: Props) {
         {workExperience.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Work Experience
+              {t('preview.experience')}
             </h2>
             <div className="space-y-4">
               {workExperience.map((exp) => (
@@ -107,7 +110,7 @@ export default function ModernTemplate({ data }: Props) {
         {education.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Education
+              {t('preview.education')}
             </h2>
             <div className="space-y-4">
               {education.map((edu) => (
@@ -135,7 +138,7 @@ export default function ModernTemplate({ data }: Props) {
         {skills.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Skills
+              {t('preview.skills')}
             </h2>
             <div className="space-y-3">
               {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
@@ -165,7 +168,7 @@ export default function ModernTemplate({ data }: Props) {
         {projects.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Projects
+              {t('preview.projects')}
             </h2>
             <div className="space-y-4">
               {projects.map((project) => (
@@ -194,7 +197,7 @@ export default function ModernTemplate({ data }: Props) {
         {certifications.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Certifications
+              {t('preview.certifications')}
             </h2>
             <div className="space-y-2">
               {certifications.map((cert) => (
@@ -214,7 +217,7 @@ export default function ModernTemplate({ data }: Props) {
         {languages.length > 0 && (
           <section className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
-              Languages
+              {t('preview.languages')}
             </h2>
             <div className="flex flex-wrap gap-4">
               {languages.map((lang) => (

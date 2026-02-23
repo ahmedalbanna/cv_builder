@@ -3,9 +3,11 @@ import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { WorkExperience } from '../../types/cv'
+import { useTranslation } from 'react-i18next'
 
 export default function WorkExperienceForm() {
   const { cvData, addWorkExperience, updateWorkExperience, deleteWorkExperience } = useCV()
+  const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<WorkExperience>>({})
@@ -54,7 +56,7 @@ export default function WorkExperienceForm() {
               <h3 className="font-semibold text-gray-900">{exp.position}</h3>
               <p className="text-gray-700">{exp.company}</p>
               <p className="text-sm text-gray-500">
-                {exp.location} • {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
+                {exp.location} • {exp.startDate} - {exp.current ? t('preview.present') : exp.endDate}
               </p>
               {exp.description && (
                 <p className="mt-2 text-sm text-gray-600">{exp.description}</p>
@@ -84,7 +86,7 @@ export default function WorkExperienceForm() {
           className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-primary-500 hover:text-primary-600 transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="w-5 h-5" />
-          Add Work Experience
+          {t('experience.addExperience')}
         </button>
       )}
 
@@ -92,41 +94,41 @@ export default function WorkExperienceForm() {
         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="label-text">Company *</label>
+              <label className="label-text">{t('experience.company')} *</label>
               <input
                 type="text"
                 value={formData.company || ''}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 className="input-field"
-                placeholder="Company Name"
+                placeholder={t('experience.placeholders.company')}
               />
             </div>
             <div>
-              <label className="label-text">Position *</label>
+              <label className="label-text">{t('experience.position')} *</label>
               <input
                 type="text"
                 value={formData.position || ''}
                 onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                 className="input-field"
-                placeholder="Job Title"
+                placeholder={t('experience.placeholders.position')}
               />
             </div>
           </div>
 
           <div>
-            <label className="label-text">Location</label>
+            <label className="label-text">{t('personalInfo.location')}</label>
             <input
               type="text"
               value={formData.location || ''}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               className="input-field"
-              placeholder="City, Country"
+              placeholder={t('personalInfo.placeholders.location')}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="label-text">Start Date *</label>
+              <label className="label-text">{t('experience.startDate')} *</label>
               <input
                 type="month"
                 value={formData.startDate || ''}
@@ -135,7 +137,7 @@ export default function WorkExperienceForm() {
               />
             </div>
             <div>
-              <label className="label-text">End Date</label>
+              <label className="label-text">{t('experience.endDate')}</label>
               <input
                 type="month"
                 value={formData.endDate || ''}
@@ -150,30 +152,30 @@ export default function WorkExperienceForm() {
                   onChange={(e) => setFormData({ ...formData, current: e.target.checked })}
                   className="mr-2"
                 />
-                <span className="text-sm text-gray-700">Currently working here</span>
+                <span className="text-sm text-gray-700">{t('experience.currentJob')}</span>
               </label>
             </div>
           </div>
 
           <div>
-            <label className="label-text">Description</label>
+            <label className="label-text">{t('experience.description')}</label>
             <textarea
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="input-field resize-none"
               rows={4}
-              placeholder="Describe your role, responsibilities, and key achievements..."
+              placeholder={t('experience.placeholders.description')}
             />
           </div>
 
           <div className="flex gap-2">
             <button onClick={handleSubmit} className="btn-primary flex items-center gap-2">
               <Check className="w-4 h-4" />
-              {editingId ? 'Update' : 'Add'}
+              {editingId ? t('actions.save') : t('actions.add')}
             </button>
             <button onClick={resetForm} className="btn-secondary flex items-center gap-2">
               <X className="w-4 h-4" />
-              Cancel
+              {t('actions.cancel')}
             </button>
           </div>
         </div>

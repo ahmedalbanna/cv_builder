@@ -1,0 +1,187 @@
+{
+  "app": {
+    "title": "CV Builder",
+    "subtitle": "Create your professional resume",
+    "autoSaved": "Auto-saved locally"
+  },
+  "nav": {
+    "form": "Edit Information",
+    "preview": "Preview"
+  },
+  "actions": {
+    "add": "Add",
+    "remove": "Remove",
+    "save": "Save",
+    "cancel": "Cancel",
+    "export": "Export to PDF",
+    "exporting": "Generating PDF...",
+    "download": "Download",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "templates": {
+    "title": "Choose Template",
+    "modern": "Modern",
+    "classic": "Classic",
+    "creative": "Creative",
+    "modernDesc": "Clean and contemporary design",
+    "classicDesc": "Traditional professional layout",
+    "creativeDesc": "Bold design with sidebar"
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "fullName": "Full Name",
+    "jobTitle": "Job Title",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "website": "Website",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "summary": "Professional Summary",
+    "placeholders": {
+      "fullName": "John Doe",
+      "jobTitle": "Software Engineer",
+      "email": "john@example.com",
+      "phone": "+1 234 567 8900",
+      "location": "New York, NY",
+      "website": "https://johndoe.com",
+      "linkedin": "https://linkedin.com/in/johndoe",
+      "github": "https://github.com/johndoe",
+      "summary": "Experienced professional with expertise in..."
+    }
+  },
+  "experience": {
+    "title": "Work Experience",
+    "addExperience": "Add Experience",
+    "position": "Position",
+    "company": "Company",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "currentJob": "I currently work here",
+    "description": "Description",
+    "placeholders": {
+      "position": "Senior Software Engineer",
+      "company": "Tech Company Inc.",
+      "description": "• Led development of...\n• Improved performance by...\n• Collaborated with..."
+    }
+  },
+  "education": {
+    "title": "Education",
+    "addEducation": "Add Education",
+    "degree": "Degree",
+    "institution": "Institution",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "currentlyStudying": "I currently study here",
+    "description": "Description",
+    "placeholders": {
+      "degree": "Bachelor of Science in Computer Science",
+      "institution": "University Name",
+      "description": "GPA: 3.8/4.0\nRelevant coursework: Algorithms, Data Structures..."
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "addSkill": "Add Skill",
+    "skillName": "Skill Name",
+    "category": "Category",
+    "level": "Level",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "expert": "Expert"
+    },
+    "categories": {
+      "technical": "Technical",
+      "soft": "Soft Skills",
+      "language": "Language",
+      "other": "Other"
+    },
+    "placeholders": {
+      "skillName": "e.g., JavaScript, Leadership"
+    },
+    "noSkills": "No skills added yet. Add your first skill above!"
+  },
+  "education": {
+    "title": "Education",
+    "addEducation": "Add Education",
+    "degree": "Degree",
+    "institution": "Institution",
+    "field": "Field of Study",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "currentlyStudying": "I currently study here",
+    "description": "Description",
+    "placeholders": {
+      "degree": "Bachelor of Science in Computer Science",
+      "institution": "University Name",
+      "field": "Computer Science",
+      "description": "GPA: 3.8/4.0\nRelevant coursework: Algorithms, Data Structures..."
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "addProject": "Add Project",
+    "projectName": "Project Name",
+    "projectUrl": "Project URL",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "ongoing": "Ongoing project",
+    "description": "Description",
+    "technologies": "Technologies",
+    "placeholders": {
+      "projectName": "E-commerce Platform",
+      "projectUrl": "https://github.com/username/project",
+      "description": "Built a full-stack e-commerce platform with...",
+      "technologies": "React, Node.js, MongoDB"
+    }
+  },
+  "certifications": {
+    "title": "Certifications",
+    "addCertification": "Add Certification",
+    "certificationName": "Certification Name",
+    "issuer": "Issuing Organization",
+    "issueDate": "Issue Date",
+    "expiryDate": "Expiry Date",
+    "noExpiry": "Does not expire",
+    "credentialUrl": "Credential URL",
+    "placeholders": {
+      "certificationName": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "credentialUrl": "https://www.credly.com/badges/..."
+    }
+  },
+  "languages": {
+    "title": "Languages",
+    "addLanguage": "Add Language",
+    "languageName": "Language",
+    "proficiency": "Proficiency",
+    "levels": {
+      "basic": "Basic",
+      "intermediate": "Intermediate",
+      "conversational": "Conversational",
+      "professional": "Professional",
+      "fluent": "Fluent",
+      "native": "Native"
+    },
+    "placeholders": {
+      "languageName": "e.g., English, Spanish"
+    },
+    "noLanguages": "No languages added yet. Add your first language above!"
+  },
+  "preview": {
+    "contact": "Contact",
+    "summary": "Summary",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "projects": "Projects",
+    "certifications": "Certifications",
+    "languages": "Languages",
+    "present": "Present",
+    "expires": "Expires",
+    "noExpiry": "No Expiry"
+  }
+}
