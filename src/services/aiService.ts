@@ -107,6 +107,15 @@ class AIService {
         case 'improveCertification':
           prompt = AI_PROMPTS.improveCertification(params.certName || '')
           break
+        case 'extractKeywords':
+          prompt = AI_PROMPTS.extractKeywords(params.jobDescription || '')
+          break
+        case 'analyzeSkillGap':
+          prompt = AI_PROMPTS.analyzeSkillGap(params.cvSkills || '', params.jobRequirements || '')
+          break
+        case 'optimizeForATS':
+          prompt = AI_PROMPTS.optimizeForATS(params.content || '', params.keywords || '')
+          break
         default:
           return {
             success: false,
@@ -199,11 +208,14 @@ class AIService {
   getFallbackSuggestion(promptType: PromptType): string {
     const fallbacks: Record<PromptType, string> = {
       professionalSummary: 'Experienced professional with a proven track record of delivering results. Strong analytical and problem-solving skills combined with excellent communication abilities.',
-      improveBulletPoint: '1. Led cross-functional team initiatives that improved efficiency by X%\n2. Developed and implemented solutions that increased productivity by Y%\n3. Collaborated with stakeholders to achieve key business objectives',
-      generateJobDescription: '• Managed and executed key projects resulting in measurable improvements\n• Collaborated with cross-functional teams to deliver high-quality solutions\n• Implemented best practices that enhanced team productivity\n• Analyzed data to drive informed decision-making',
+      improveBulletPoint: '1. Led cross-functional team initiatives that improved efficiency by X%\\n2. Developed and implemented solutions that increased productivity by Y%\\n3. Collaborated with stakeholders to achieve key business objectives',
+      generateJobDescription: '• Managed and executed key projects resulting in measurable improvements\\n• Collaborated with cross-functional teams to deliver high-quality solutions\\n• Implemented best practices that enhanced team productivity\\n• Analyzed data to drive informed decision-making',
       improveProjectDescription: 'Developed a comprehensive solution that addressed key business challenges, resulting in improved efficiency and user satisfaction. Utilized modern technologies to deliver a scalable and maintainable system.',
       suggestSkills: 'Leadership, Project Management, Communication, Problem Solving, Data Analysis, Team Collaboration, Strategic Planning, Time Management',
       improveCertification: 'This certification demonstrates professional expertise and commitment to continuous learning in the field.',
+      extractKeywords: 'project management, leadership, communication, problem solving, data analysis, technical skills',
+      analyzeSkillGap: 'MATCHED SKILLS: Unable to analyze without AI\\nMISSING SKILLS: Unable to determine\\nRECOMMENDATIONS: Enable AI to get skill gap analysis',
+      optimizeForATS: 'AI optimization unavailable. Please ensure your content includes relevant keywords and uses action verbs.',
     }
 
     return fallbacks[promptType] || 'AI suggestions are currently unavailable. Please check your Ollama installation.'

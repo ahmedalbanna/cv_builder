@@ -240,7 +240,7 @@ The application is fully responsive:
 - [x] Arabic Lanaguage
 - [x] Multiple CV management
 - [x] AI-powered content suggestions
-- [ ] ATS (Applicant Tracking System) optimization checker
+- [x] ATS (Applicant Tracking System) optimization checker
 - [ ] Cover letter builder
 - [ ] Import from LinkedIn
 - [ ] Photo upload support

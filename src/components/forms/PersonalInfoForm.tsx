@@ -1,19 +1,24 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
 import { useAI } from '../../contexts/AIContext'
+import { useATS } from '../../contexts/ATSContext'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import AISuggestionButton from '../AISuggestionButton'
 import AISuggestionPanel from '../AISuggestionPanel'
+import ATSWarning from '../ats/ATSWarning'
 
 export default function PersonalInfoForm() {
   const { cvData, updatePersonalInfo } = useCV()
   const { getSuggestion, isConnected } = useAI()
+  const { getWarningsForSection } = useATS()
   const { personalInfo } = cvData
   const { t } = useTranslation()
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [suggestionError, setSuggestionError] = useState<string | null>(null)
+  
+  const atsWarnings = getWarningsForSection('contact')
 
   const handleGetAISuggestions = async () => {
     setSuggestionError(null)
@@ -46,6 +51,14 @@ export default function PersonalInfoForm() {
 
   return (
     <div className="space-y-4">
+      {atsWarnings.length > 0 && (
+        <div className="space-y-2">
+          {atsWarnings.map(warning => (
+            <ATSWarning key={warning.id} check={warning} compact />
+          ))}
+        </div>
+      )}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="label-text">{t('personalInfo.fullName')} *</label>

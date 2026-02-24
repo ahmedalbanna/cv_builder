@@ -233,7 +233,7 @@ npm run lint
 - [x] Arabic Lanaguage
 - [x] Multiple CV management
 - [x] AI-powered content suggestions
-- [ ] ATS optimization checker
+- [x] ATS optimization checker
 - [ ] Cover letter builder
 - [ ] Import from LinkedIn
 - [ ] Photo upload support

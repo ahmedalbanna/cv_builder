@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
 import { useAI } from '../../contexts/AIContext'
+import { useATS } from '../../contexts/ATSContext'
 import { generateId } from '../../utils/helpers'
 import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
 import { WorkExperience } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
 import AISuggestionButton from '../AISuggestionButton'
 import AISuggestionPanel from '../AISuggestionPanel'
+import ATSWarning from '../ats/ATSWarning'
 
 export default function WorkExperienceForm() {
   const { cvData, addWorkExperience, updateWorkExperience, deleteWorkExperience } = useCV()
   const { getSuggestion, isConnected } = useAI()
+  const { getWarningsForSection } = useATS()
   const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -18,6 +21,8 @@ export default function WorkExperienceForm() {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [suggestionError, setSuggestionError] = useState<string | null>(null)
+  
+  const atsWarnings = getWarningsForSection('experience')
 
   const resetForm = () => {
     setFormData({})
@@ -79,6 +84,14 @@ export default function WorkExperienceForm() {
 
   return (
     <div className="space-y-4">
+      {atsWarnings.length > 0 && (
+        <div className="space-y-2">
+          {atsWarnings.map(warning => (
+            <ATSWarning key={warning.id} check={warning} compact />
+          ))}
+        </div>
+      )}
+      
       {cvData.workExperience.map((exp) => (
         <div key={exp.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
           <div className="flex justify-between items-start">

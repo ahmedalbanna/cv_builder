@@ -1,6 +1,6 @@
 export const AI_CONFIG = {
   // Ollama API endpoint (default local installation)
-  apiEndpoint: 'http://localhost:11434',
+  apiEndpoint: 'https://11434-01kg5scn46xk1e7bgynxz1vghf.cloudspaces.litng.ai',
 
   // Default model (can be changed by user)
   defaultModel: 'llama3.2:1b',
@@ -112,6 +112,50 @@ Requirements:
 - Focus on what it demonstrates
 
 Provide ONLY the description, no explanations.
+`,
+
+  extractKeywords: (jobDescription: string) => `
+You are an ATS (Applicant Tracking System) expert. Extract the most important keywords and required skills from this job description.
+
+Job Description:
+${jobDescription}
+
+Requirements:
+- Extract technical skills, tools, and technologies
+- Identify soft skills and qualifications
+- Include action verbs and key phrases
+- Focus on must-have requirements
+
+Provide the keywords as a comma-separated list only.
+`,
+
+  analyzeSkillGap: (cvSkills: string, jobRequirements: string) => `
+You are a career advisor. Compare the candidate's skills against job requirements and identify gaps.
+
+Candidate's Skills: ${cvSkills}
+Job Requirements: ${jobRequirements}
+
+Provide analysis in this format:
+MATCHED SKILLS: [list skills that match]
+MISSING SKILLS: [list critical missing skills]
+RECOMMENDATIONS: [3-4 specific suggestions to improve the match]
+`,
+
+  optimizeForATS: (content: string, keywords: string) => `
+You are an ATS optimization expert. Rewrite this CV content to be more ATS-friendly while incorporating these keywords naturally.
+
+Keywords to include: ${keywords}
+Original content:
+${content}
+
+Requirements:
+- Incorporate keywords naturally without keyword stuffing
+- Use action verbs and quantifiable achievements
+- Keep it authentic and readable
+- Maintain professional tone
+- Keep similar length to original
+
+Provide ONLY the optimized content, no explanations.
 `,
 }
 
