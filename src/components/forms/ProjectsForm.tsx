@@ -2,14 +2,30 @@ import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
 import { useAI } from '../../contexts/AIContext'
 import { generateId } from '../../utils/helpers'
-import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
+import { Plus, Check, X } from 'lucide-react'
 import { Project } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
 import AISuggestionButton from '../AISuggestionButton'
 import AISuggestionPanel from '../AISuggestionPanel'
+import DraggableListItem from '../DraggableListItem'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 
 export default function ProjectsForm() {
-  const { cvData, addProject, updateProject, deleteProject } = useCV()
+  const { cvData, addProject, updateProject, deleteProject, updateCVData } = useCV()
   const { getSuggestion, isConnected } = useAI()
   const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
@@ -19,6 +35,25 @@ export default function ProjectsForm() {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [suggestionError, setSuggestionError] = useState<string | null>(null)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = cvData.projects.findIndex((proj) => proj.id === active.id)
+      const newIndex = cvData.projects.findIndex((proj) => proj.id === over.id)
+
+      const newOrder = arrayMove(cvData.projects, oldIndex, newIndex)
+      updateCVData({ projects: newOrder })
+    }
+  }
 
   const resetForm = () => {
     setFormData({})
@@ -95,48 +130,48 @@ export default function ProjectsForm() {
 
   return (
     <div className="space-y-4">
-      {cvData.projects.map((project) => (
-        <div key={project.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">{project.name}</h3>
-              <p className="text-sm text-gray-600 mt-1">{project.description}</p>
-              {project.technologies.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {project.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {(project.url || project.github) && (
-                <div className="flex gap-3 mt-2 text-xs text-primary-600">
-                  {project.url && <a href={project.url} target="_blank" rel="noopener noreferrer">Live Demo</a>}
-                  {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer">GitHub</a>}
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(project)}
-                className="p-1 text-gray-500 hover:text-primary-600"
-              >
-                <Edit2 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => deleteProject(project.id)}
-                className="p-1 text-gray-500 hover:text-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={cvData.projects.map(proj => proj.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {cvData.projects.map((project) => (
+            <DraggableListItem
+              key={project.id}
+              id={project.id}
+              onEdit={() => handleEdit(project)}
+              onDelete={() => deleteProject(project.id)}
+            >
+              <div>
+                <h3 className="font-semibold text-gray-900">{project.name}</h3>
+                <p className="text-sm text-gray-600 mt-1">{project.description}</p>
+                {project.technologies.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {project.technologies.map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {(project.url || project.github) && (
+                  <div className="flex gap-3 mt-2 text-xs text-primary-600">
+                    {project.url && <a href={project.url} target="_blank" rel="noopener noreferrer">Live Demo</a>}
+                    {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer">GitHub</a>}
+                  </div>
+                )}
+              </div>
+            </DraggableListItem>
+          ))}
+        </SortableContext>
+      </DndContext>
 
       {!isAdding && (
         <button

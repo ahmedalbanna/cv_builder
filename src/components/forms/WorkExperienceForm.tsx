@@ -3,15 +3,31 @@ import { useCV } from '../../contexts/CVContext'
 import { useAI } from '../../contexts/AIContext'
 import { useATS } from '../../contexts/ATSContext'
 import { generateId } from '../../utils/helpers'
-import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
+import { Plus, Check, X } from 'lucide-react'
 import { WorkExperience } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
 import AISuggestionButton from '../AISuggestionButton'
 import AISuggestionPanel from '../AISuggestionPanel'
 import ATSWarning from '../ats/ATSWarning'
+import DraggableListItem from '../DraggableListItem'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 
 export default function WorkExperienceForm() {
-  const { cvData, addWorkExperience, updateWorkExperience, deleteWorkExperience } = useCV()
+  const { cvData, addWorkExperience, updateWorkExperience, deleteWorkExperience, updateCVData } = useCV()
   const { getSuggestion, isConnected } = useAI()
   const { getWarningsForSection } = useATS()
   const { t } = useTranslation()
@@ -23,6 +39,25 @@ export default function WorkExperienceForm() {
   const [suggestionError, setSuggestionError] = useState<string | null>(null)
   
   const atsWarnings = getWarningsForSection('experience')
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = cvData.workExperience.findIndex((exp) => exp.id === active.id)
+      const newIndex = cvData.workExperience.findIndex((exp) => exp.id === over.id)
+
+      const newOrder = arrayMove(cvData.workExperience, oldIndex, newIndex)
+      updateCVData({ workExperience: newOrder })
+    }
+  }
 
   const resetForm = () => {
     setFormData({})
@@ -92,36 +127,36 @@ export default function WorkExperienceForm() {
         </div>
       )}
       
-      {cvData.workExperience.map((exp) => (
-        <div key={exp.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">{exp.position}</h3>
-              <p className="text-gray-700">{exp.company}</p>
-              <p className="text-sm text-gray-500">
-                {exp.location} • {exp.startDate} - {exp.current ? t('preview.present') : exp.endDate}
-              </p>
-              {exp.description && (
-                <p className="mt-2 text-sm text-gray-600">{exp.description}</p>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(exp)}
-                className="p-1 text-gray-500 hover:text-primary-600"
-              >
-                <Edit2 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => deleteWorkExperience(exp.id)}
-                className="p-1 text-gray-500 hover:text-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={cvData.workExperience.map(exp => exp.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {cvData.workExperience.map((exp) => (
+            <DraggableListItem
+              key={exp.id}
+              id={exp.id}
+              onEdit={() => handleEdit(exp)}
+              onDelete={() => deleteWorkExperience(exp.id)}
+            >
+              <div>
+                <h3 className="font-semibold text-gray-900">{exp.position}</h3>
+                <p className="text-gray-700">{exp.company}</p>
+                <p className="text-sm text-gray-500">
+                  {exp.location} • {exp.startDate} - {exp.current ? t('preview.present') : exp.endDate}
+                </p>
+                {exp.description && (
+                  <p className="mt-2 text-sm text-gray-600">{exp.description}</p>
+                )}
+              </div>
+            </DraggableListItem>
+          ))}
+        </SortableContext>
+      </DndContext>
 
       {!isAdding && (
         <button

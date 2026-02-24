@@ -1,16 +1,51 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
-import { Plus, Trash2, Edit2, Check, X } from 'lucide-react'
+import { Plus, Check, X } from 'lucide-react'
 import { Certification } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
+import DraggableListItem from '../DraggableListItem'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 
 export default function CertificationsForm() {
-  const { cvData, addCertification, updateCertification, deleteCertification } = useCV()
+  const { cvData, addCertification, updateCertification, deleteCertification, updateCVData } = useCV()
   const { t } = useTranslation()
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Partial<Certification>>({})
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = cvData.certifications.findIndex((cert) => cert.id === active.id)
+      const newIndex = cvData.certifications.findIndex((cert) => cert.id === over.id)
+
+      const newOrder = arrayMove(cvData.certifications, oldIndex, newIndex)
+      updateCVData({ certifications: newOrder })
+    }
+  }
 
   const resetForm = () => {
     setFormData({})
@@ -47,37 +82,37 @@ export default function CertificationsForm() {
 
   return (
     <div className="space-y-4">
-      {cvData.certifications.map((cert) => (
-        <div key={cert.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="flex justify-between items-start">
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">{cert.name}</h3>
-              <p className="text-gray-700">{cert.issuer}</p>
-              <p className="text-sm text-gray-500">
-                Issued: {cert.date}
-                {cert.expiryDate && ` • Expires: ${cert.expiryDate}`}
-              </p>
-              {cert.credentialId && (
-                <p className="text-xs text-gray-500 mt-1">ID: {cert.credentialId}</p>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(cert)}
-                className="p-1 text-gray-500 hover:text-primary-600"
-              >
-                <Edit2 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => deleteCertification(cert.id)}
-                className="p-1 text-gray-500 hover:text-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={cvData.certifications.map(cert => cert.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {cvData.certifications.map((cert) => (
+            <DraggableListItem
+              key={cert.id}
+              id={cert.id}
+              onEdit={() => handleEdit(cert)}
+              onDelete={() => deleteCertification(cert.id)}
+            >
+              <div>
+                <h3 className="font-semibold text-gray-900">{cert.name}</h3>
+                <p className="text-gray-700">{cert.issuer}</p>
+                <p className="text-sm text-gray-500">
+                  Issued: {cert.date}
+                  {cert.expiryDate && ` • Expires: ${cert.expiryDate}`}
+                </p>
+                {cert.credentialId && (
+                  <p className="text-xs text-gray-500 mt-1">ID: {cert.credentialId}</p>
+                )}
+              </div>
+            </DraggableListItem>
+          ))}
+        </SortableContext>
+      </DndContext>
 
       {!isAdding && (
         <button

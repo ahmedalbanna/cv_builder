@@ -1,15 +1,50 @@
 import { useState } from 'react'
 import { useCV } from '../../contexts/CVContext'
 import { generateId } from '../../utils/helpers'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Language } from '../../types/cv'
 import { useTranslation } from 'react-i18next'
+import DraggableListItem from '../DraggableListItem'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 
 export default function LanguagesForm() {
-  const { cvData, addLanguage, deleteLanguage } = useCV()
+  const { cvData, addLanguage, deleteLanguage, updateCVData } = useCV()
   const { t } = useTranslation()
   const [languageName, setLanguageName] = useState('')
   const [proficiency, setProficiency] = useState<Language['proficiency']>('intermediate')
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = cvData.languages.findIndex((lang) => lang.id === active.id)
+      const newIndex = cvData.languages.findIndex((lang) => lang.id === over.id)
+
+      const newOrder = arrayMove(cvData.languages, oldIndex, newIndex)
+      updateCVData({ languages: newOrder })
+    }
+  }
 
   const handleAdd = () => {
     if (!languageName.trim()) return
@@ -71,27 +106,33 @@ export default function LanguagesForm() {
       </button>
 
       {cvData.languages.length > 0 && (
-        <div className="space-y-2">
-          {cvData.languages.map((lang) => (
-            <div
-              key={lang.id}
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200"
-            >
-              <div>
-                <span className="font-medium text-gray-900">{lang.name}</span>
-                <span className="ml-2 text-sm text-gray-600">
-                  • {proficiencyLabels[lang.proficiency]}
-                </span>
-              </div>
-              <button
-                onClick={() => deleteLanguage(lang.id)}
-                className="p-1 text-gray-500 hover:text-red-600"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={cvData.languages.map(lang => lang.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-2">
+              {cvData.languages.map((lang) => (
+                <DraggableListItem
+                  key={lang.id}
+                  id={lang.id}
+                  onDelete={() => deleteLanguage(lang.id)}
+                >
+                  <div>
+                    <span className="font-medium text-gray-900">{lang.name}</span>
+                    <span className="ml-2 text-sm text-gray-600">
+                      • {proficiencyLabels[lang.proficiency]}
+                    </span>
+                  </div>
+                </DraggableListItem>
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {cvData.languages.length === 0 && (
