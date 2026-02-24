@@ -25,6 +25,13 @@ export default function ClassicTemplate({ data }: Props) {
       <div className="p-8">
         {/* Header */}
         <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
+          {personalInfo.photo && (
+            <img
+              src={personalInfo.photo}
+              alt={personalInfo.fullName}
+              className="w-28 h-28 rounded-full object-cover border-3 border-gray-800 mx-auto mb-4"
+            />
+          )}
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
             {personalInfo.fullName || 'Your Name'}
           </h1>

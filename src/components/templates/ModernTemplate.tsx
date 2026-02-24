@@ -24,7 +24,16 @@ export default function ModernTemplate({ data }: Props) {
     <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-8">
-        <h1 className="text-4xl font-bold mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <div className="flex items-start gap-6">
+          {personalInfo.photo && (
+            <img
+              src={personalInfo.photo}
+              alt={personalInfo.fullName}
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg flex-shrink-0"
+            />
+          )}
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold mb-2">{personalInfo.fullName || 'Your Name'}</h1>
         <div className="flex flex-wrap gap-4 text-sm opacity-90">
           {personalInfo.email && (
             <div className="flex items-center gap-1">
@@ -64,6 +73,11 @@ export default function ModernTemplate({ data }: Props) {
               <span className="truncate">{personalInfo.github.replace(/^https?:\/\//, '')}</span>
             </div>
           )}
+        </div>
+            {personalInfo.jobTitle && (
+              <p className="text-xl mt-4">{personalInfo.jobTitle}</p>
+            )}
+          </div>
         </div>
       </div>
 

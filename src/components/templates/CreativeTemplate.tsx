@@ -25,6 +25,15 @@ export default function CreativeTemplate({ data }: Props) {
       <div className="grid grid-cols-3 min-h-screen">
         {/* Left Sidebar */}
         <div className="col-span-1 bg-gradient-to-b from-gray-800 to-gray-900 text-white p-6">
+          {personalInfo.photo && (
+            <div className="mb-6 flex justify-center">
+              <img
+                src={personalInfo.photo}
+                alt={personalInfo.fullName}
+                className="w-32 h-32 rounded-full object-cover border-4 border-primary-500 shadow-xl"
+              />
+            </div>
+          )}
           <div className="mb-6">
             <h1 className="text-2xl font-bold mb-1">{personalInfo.fullName || 'Your Name'}</h1>
             <div className="h-1 w-16 bg-primary-500 mb-4"></div>

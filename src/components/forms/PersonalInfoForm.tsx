@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import AISuggestionButton from '../AISuggestionButton'
 import AISuggestionPanel from '../AISuggestionPanel'
 import ATSWarning from '../ats/ATSWarning'
+import PhotoUpload from '../PhotoUpload'
 
 export default function PersonalInfoForm() {
   const { cvData, updatePersonalInfo } = useCV()
@@ -58,6 +59,13 @@ export default function PersonalInfoForm() {
           ))}
         </div>
       )}
+
+      {/* Photo Upload */}
+      <PhotoUpload
+        photo={personalInfo.photo}
+        onPhotoChange={(photo) => updatePersonalInfo({ photo })}
+        onPhotoRemove={() => updatePersonalInfo({ photo: undefined })}
+      />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

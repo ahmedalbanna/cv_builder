@@ -19,6 +19,7 @@ A modern, feature-rich CV/Resume builder built with React, TypeScript, and Tailw
 
 ### CV Sections
 - ✅ Personal Information (with contact details and social links)
+- ✅ **Profile Photo Upload** (drag & drop, up to 5MB)
 - ✅ Professional Summary
 - ✅ Work Experience (with CRUD operations)
 - ✅ Education (with CRUD operations)
@@ -32,17 +33,20 @@ A modern, feature-rich CV/Resume builder built with React, TypeScript, and Tailw
 #### 1. Modern Template
 - Clean contemporary design
 - Colorful header with gradient
+- Profile photo displayed alongside name
 - Blue accent colors
 - Perfect for tech and creative industries
 
 #### 2. Classic Template
 - Traditional professional layout
+- Centered profile photo at top
 - Serif fonts for formal appearance
 - Black and white color scheme
 - Ideal for corporate and traditional industries
 
 #### 3. Creative Template
 - Two-column layout with sidebar
+- Profile photo prominently in sidebar
 - Dark sidebar with white content area
 - Timeline-style experience section
 - Great for designers and creative professionals
@@ -243,7 +247,7 @@ The application is fully responsive:
 - [x] ATS (Applicant Tracking System) optimization checker
 - [x] Cover letter builder
 - [x] Import from LinkedIn
-- [ ] Photo upload support
+- [x] Photo upload support
 - [ ] Custom color themes
 - [ ] Drag-and-drop section reordering
 - [ ] More template options
