@@ -241,8 +241,8 @@ The application is fully responsive:
 - [x] Multiple CV management
 - [x] AI-powered content suggestions
 - [x] ATS (Applicant Tracking System) optimization checker
-- [ ] Cover letter builder
-- [ ] Import from LinkedIn
+- [x] Cover letter builder
+- [x] Import from LinkedIn
 - [ ] Photo upload support
 - [ ] Custom color themes
 - [ ] Drag-and-drop section reordering

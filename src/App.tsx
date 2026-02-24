@@ -8,6 +8,7 @@ import CVForm from './components/CVForm'
 import CVPreview from './components/CVPreview'
 import TemplateSelector from './components/TemplateSelector'
 import ExportButton from './components/ExportButton'
+import LinkedInImport from './components/LinkedInImport'
 import CoverLetterForm from './components/coverLetter/CoverLetterForm'
 import CoverLetterPreview from './components/coverLetter/CoverLetterPreview'
 import CoverLetterTemplateSelector from './components/coverLetter/CoverLetterTemplateSelector'
@@ -16,7 +17,7 @@ import InstallPrompt from './components/InstallPrompt'
 import AISettingsPanel from './components/AISettingsPanel'
 import ATSScoreCard from './components/ats/ATSScoreCard'
 import ATSDetailedBreakdown from './components/ats/ATSDetailedBreakdown'
-import { Settings, Target } from 'lucide-react'
+import { Settings, Target, Linkedin } from 'lucide-react'
 import { useATS } from './contexts/ATSContext'
 
 function AppContent() {
@@ -24,6 +25,7 @@ function AppContent() {
   const [showPreview, setShowPreview] = useState(true)
   const [showAISettings, setShowAISettings] = useState(false)
   const [showATSDetails, setShowATSDetails] = useState(false)
+  const [showLinkedInImport, setShowLinkedInImport] = useState(false)
   const { analysisResult } = useATS()
 
   return (
@@ -49,6 +51,14 @@ function AppContent() {
               <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 no-print">
                 <TemplateSelector />
                 <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowLinkedInImport(true)}
+                    className="btn-secondary flex items-center gap-2"
+                    title="Import from LinkedIn"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    <span className="hidden sm:inline">Import LinkedIn</span>
+                  </button>
                   <button
                     onClick={() => setShowATSDetails(true)}
                     className="btn-secondary flex items-center gap-2"
@@ -135,6 +145,10 @@ function AppContent() {
           )}
       </div>
       <InstallPrompt />
+      <LinkedInImport
+        isOpen={showLinkedInImport}
+        onClose={() => setShowLinkedInImport(false)}
+      />
       <AISettingsPanel 
         isOpen={showAISettings} 
         onClose={() => setShowAISettings(false)} 

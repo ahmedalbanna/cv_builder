@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { CVState, TemplateType, CVProfile, CVProfileMetadata } from '../types/cv'
+import { CVState, TemplateType, CVProfile, CVProfileMetadata, CVData } from '../types/cv'
 import {
   initializeStorage,
   getActiveProfile,
@@ -48,6 +48,7 @@ interface CVContextType {
   duplicateCurrentProfile: (profileId: string) => void
   exportProfile: (profileId: string) => void
   importProfile: (jsonData: string) => void
+  importFromLinkedIn: (data: Partial<CVData>) => void
   refreshProfiles: () => void
 }
 
@@ -296,6 +297,19 @@ export function CVProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const importFromLinkedIn = (data: Partial<CVData>) => {
+    setCvData(prev => ({
+      ...prev,
+      personalInfo: data.personalInfo ? { ...prev.personalInfo, ...data.personalInfo } : prev.personalInfo,
+      workExperience: data.workExperience ? [...data.workExperience, ...prev.workExperience] : prev.workExperience,
+      education: data.education ? [...data.education, ...prev.education] : prev.education,
+      skills: data.skills ? [...data.skills, ...prev.skills] : prev.skills,
+      certifications: data.certifications ? [...data.certifications, ...prev.certifications] : prev.certifications,
+      projects: data.projects ? [...data.projects, ...prev.projects] : prev.projects,
+      languages: data.languages ? [...data.languages, ...prev.languages] : prev.languages,
+    }))
+  }
+
   return (
     <CVContext.Provider
       value={{
@@ -330,6 +344,7 @@ export function CVProvider({ children }: { children: ReactNode }) {
         duplicateCurrentProfile,
         exportProfile,
         importProfile,
+        importFromLinkedIn,
         refreshProfiles,
       }}
     >

@@ -1,0 +1,88 @@
+{
+  "profile": {
+    "First Name": "John",
+    "Last Name": "Doe",
+    "Headline": "Senior Software Engineer | Full Stack Developer",
+    "Summary": "Experienced software engineer with 5+ years of expertise in building scalable web applications. Passionate about clean code, modern frameworks, and solving complex problems.",
+    "Email Address": "john.doe@example.com",
+    "Phone Numbers": "+1 (555) 123-4567",
+    "Geo Location": "San Francisco, CA",
+    "Websites": [
+      "https://www.linkedin.com/in/johndoe",
+      "https://johndoe.dev",
+      "https://github.com/johndoe"
+    ]
+  },
+  "positions": [
+    {
+      "Company Name": "Tech Corp",
+      "Title": "Senior Software Engineer",
+      "Location": "San Francisco, CA",
+      "Started On": "2021-03-01",
+      "Finished On": "",
+      "Description": "Leading development of cloud-based applications\n• Architected microservices using Node.js and React\n• Reduced deployment time by 40% through CI/CD optimization\n• Mentored 5 junior developers\n• Implemented automated testing reducing bugs by 60%"
+    },
+    {
+      "Company Name": "Startup Inc",
+      "Title": "Full Stack Developer",
+      "Location": "New York, NY",
+      "Started On": "2019-06-01",
+      "Finished On": "2021-02-28",
+      "Description": "Developed and maintained multiple web applications\n• Built RESTful APIs using Python/Django\n• Created responsive UIs with React and TypeScript\n• Collaborated with design team on UX improvements\n• Increased application performance by 50%"
+    }
+  ],
+  "education": [
+    {
+      "School Name": "University of California, Berkeley",
+      "Degree Name": "Bachelor of Science",
+      "Field Of Study": "Computer Science",
+      "Start Date": "2015-09-01",
+      "End Date": "2019-05-31",
+      "Grade": "3.8 GPA",
+      "Activities": "Member of Computer Science Club\nHackathon organizer\nTeaching Assistant for Data Structures course"
+    }
+  ],
+  "skills": [
+    { "Name": "JavaScript" },
+    { "Name": "TypeScript" },
+    { "Name": "React" },
+    { "Name": "Node.js" },
+    { "Name": "Python" },
+    { "Name": "Django" },
+    { "Name": "PostgreSQL" },
+    { "Name": "MongoDB" },
+    { "Name": "AWS" },
+    { "Name": "Docker" },
+    { "Name": "Git" },
+    { "Name": "CI/CD" }
+  ],
+  "certifications": [
+    {
+      "Name": "AWS Certified Solutions Architect",
+      "Authority": "Amazon Web Services",
+      "Started On": "2022-06-01",
+      "License Number": "AWS-SA-12345",
+      "Url": "https://aws.amazon.com/certification/"
+    },
+    {
+      "Name": "Professional Scrum Master I",
+      "Authority": "Scrum.org",
+      "Started On": "2021-03-15",
+      "License Number": "PSM-67890"
+    }
+  ],
+  "languages": [
+    {
+      "Name": "English",
+      "Proficiency": "Native or bilingual proficiency"
+    },
+    {
+      "Name": "Spanish",
+      "Proficiency": "Professional working proficiency"
+    },
+    {
+      "Name": "French",
+      "Proficiency": "Limited working proficiency"
+    }
+  ]
+}
