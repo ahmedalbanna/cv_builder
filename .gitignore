@@ -25,3 +25,8 @@ dist-ssr
 
 # Temporary files
 tmp_rovodev_*
+
+# Capacitor
+android/
+ios/
+.capacitor/

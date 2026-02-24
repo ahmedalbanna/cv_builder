@@ -10,8 +10,7 @@ interface ATSScoreCardProps {
 }
 
 export default function ATSScoreCard({ result, compact = false, onViewDetails }: ATSScoreCardProps) {
-  const { t, i18n } = useTranslation()
-  const isRTL = i18n.language === 'ar'
+  const { t } = useTranslation()
   const [isExpanded, setIsExpanded] = useState(false)
 
   const getScoreColor = (score: number) => {

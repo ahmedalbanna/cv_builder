@@ -9,7 +9,7 @@ agent:
   # Temperature setting for AI model responses (0.0-1.0)
   temperature: 0.3
   # Model ID to use for the agent. See /models command to list available models.
-  modelId: claude-haiku-4-5@20251001
+  modelId: auto
   # Optional model variant key selected from dynamic configuration.
   modelVariant: null
   # Enable the deep planning tool for complex task planning
@@ -139,7 +139,7 @@ announcementTracking:
 sessionFeedback:
   permanentlyDisabled: false
   # ISO timestamp of the last provided feedback
-  lastFeedbackAsked: null
+  lastFeedbackAsked: '2026-02-24T06:58:18.471514+00:00'
 
 atlassianBillingSite:
   siteUrl: https://ahmedmurtadaalbanna-1771906724869.atlassian.net
