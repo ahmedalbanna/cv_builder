@@ -249,7 +249,7 @@ The application is fully responsive:
 - [x] Import from LinkedIn
 - [x] Photo upload support
 - [x] Custom color themes
-- [ ] Drag-and-drop section reordering
+- [x] Drag-and-drop section reordering
 - [ ] More template options
 - [ ] Mobile Application (APK, IOS)
 

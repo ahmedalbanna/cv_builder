@@ -6,6 +6,7 @@ const ACTIVE_PROFILE_KEY = 'cv-builder-active-profile'
 
 export const getInitialCVState = (): CVState => ({
   selectedTemplate: 'modern',
+  sectionOrder: ['workExperience', 'education', 'skills', 'projects', 'certifications', 'languages'],
   personalInfo: {
     fullName: '',
     jobTitle: '',

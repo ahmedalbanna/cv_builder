@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function ModernTemplate({ data }: Props) {
-  const { personalInfo, workExperience, education, skills, certifications, projects, languages, colorTheme } = data
+  const { personalInfo, workExperience, education, skills, certifications, projects, languages, colorTheme, sectionOrder } = data
   const { t, i18n } = useTranslation()
   const isRTL = i18n.language === 'ar'
   
@@ -22,6 +22,166 @@ export default function ModernTemplate({ data }: Props) {
     acc[skill.category].push(skill)
     return acc
   }, {} as Record<string, typeof skills>)
+
+  const renderSection = (sectionType: string) => {
+    switch (sectionType) {
+      case 'workExperience':
+        return workExperience.length > 0 ? (
+          <section className="mb-6" key="workExperience">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.experience')}
+            </h2>
+            <div className="space-y-4">
+              {workExperience.map((exp) => (
+                <div key={exp.id}>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{exp.position}</h3>
+                      <p className="text-gray-700 font-medium">{exp.company}</p>
+                    </div>
+                    <div className="text-right text-sm text-gray-600">
+                      <p>{getDateRange(exp.startDate, exp.endDate, exp.current)}</p>
+                      <p>{exp.location}</p>
+                    </div>
+                  </div>
+                  {exp.description && (
+                    <p className="text-gray-600 mt-2 leading-relaxed">{exp.description}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      case 'education':
+        return education.length > 0 ? (
+          <section className="mb-6" key="education">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.education')}
+            </h2>
+            <div className="space-y-4">
+              {education.map((edu) => (
+                <div key={edu.id}>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {edu.degree} {edu.field && `in ${edu.field}`}
+                      </h3>
+                      <p className="text-gray-700 font-medium">{edu.institution}</p>
+                    </div>
+                    <div className="text-right text-sm text-gray-600">
+                      <p>{getDateRange(edu.startDate, edu.endDate, edu.current)}</p>
+                      {edu.location && <p>{edu.location}</p>}
+                      {edu.gpa && <p>GPA: {edu.gpa}</p>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      case 'skills':
+        return skills.length > 0 ? (
+          <section className="mb-6" key="skills">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.skills')}
+            </h2>
+            <div className="space-y-3">
+              {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
+                <div key={category}>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-1 capitalize">
+                    {category === 'technical' ? 'Technical Skills' : 
+                     category === 'soft' ? 'Soft Skills' : 
+                     category === 'language' ? 'Language Skills' : 'Other Skills'}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {categorySkills.map((skill) => (
+                      <span
+                        key={skill.id}
+                        className="px-3 py-1 rounded-full text-sm"
+                        style={{ backgroundColor: `${theme.primary}20`, color: theme.primary }}
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      case 'projects':
+        return projects.length > 0 ? (
+          <section className="mb-6" key="projects">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.projects')}
+            </h2>
+            <div className="space-y-4">
+              {projects.map((project) => (
+                <div key={project.id}>
+                  <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+                  <p className="text-gray-600 mt-1">{project.description}</p>
+                  {project.technologies.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {project.technologies.map((tech, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 bg-gray-200 text-gray-700 text-xs rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      case 'certifications':
+        return certifications.length > 0 ? (
+          <section className="mb-6" key="certifications">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.certifications')}
+            </h2>
+            <div className="space-y-2">
+              {certifications.map((cert) => (
+                <div key={cert.id}>
+                  <h3 className="font-semibold text-gray-900">{cert.name}</h3>
+                  <p className="text-sm text-gray-600">
+                    {cert.issuer} • {cert.date}
+                    {cert.credentialId && ` • ID: ${cert.credentialId}`}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      case 'languages':
+        return languages.length > 0 ? (
+          <section className="mb-6" key="languages">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
+              {t('preview.languages')}
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              {languages.map((lang) => (
+                <div key={lang.id} className="text-gray-700">
+                  <span className="font-medium">{lang.name}</span>
+                  <span className="text-sm text-gray-600"> - {lang.proficiency}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+
+      default:
+        return null
+    }
+  }
 
   return (
     <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -95,158 +255,8 @@ export default function ModernTemplate({ data }: Props) {
           </section>
         )}
 
-        {/* Work Experience */}
-        {workExperience.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.experience')}
-            </h2>
-            <div className="space-y-4">
-              {workExperience.map((exp) => (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{exp.position}</h3>
-                      <p className="text-gray-700 font-medium">{exp.company}</p>
-                    </div>
-                    <div className="text-right text-sm text-gray-600">
-                      <p>{getDateRange(exp.startDate, exp.endDate, exp.current)}</p>
-                      <p>{exp.location}</p>
-                    </div>
-                  </div>
-                  {exp.description && (
-                    <p className="text-gray-600 mt-2 leading-relaxed">{exp.description}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Education */}
-        {education.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.education')}
-            </h2>
-            <div className="space-y-4">
-              {education.map((edu) => (
-                <div key={edu.id}>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {edu.degree} {edu.field && `in ${edu.field}`}
-                      </h3>
-                      <p className="text-gray-700 font-medium">{edu.institution}</p>
-                    </div>
-                    <div className="text-right text-sm text-gray-600">
-                      <p>{getDateRange(edu.startDate, edu.endDate, edu.current)}</p>
-                      {edu.location && <p>{edu.location}</p>}
-                      {edu.gpa && <p>GPA: {edu.gpa}</p>}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Skills */}
-        {skills.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.skills')}
-            </h2>
-            <div className="space-y-3">
-              {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
-                <div key={category}>
-                  <h3 className="text-sm font-semibold text-gray-700 mb-1 capitalize">
-                    {category === 'technical' ? 'Technical Skills' : 
-                     category === 'soft' ? 'Soft Skills' : 
-                     category === 'language' ? 'Language Skills' : 'Other Skills'}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {categorySkills.map((skill) => (
-                      <span
-                        key={skill.id}
-                        className="px-3 py-1 rounded-full text-sm"
-                        style={{ backgroundColor: `${theme.primary}20`, color: theme.primary }}
-                      >
-                        {skill.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Projects */}
-        {projects.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.projects')}
-            </h2>
-            <div className="space-y-4">
-              {projects.map((project) => (
-                <div key={project.id}>
-                  <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                  <p className="text-gray-600 mt-1">{project.description}</p>
-                  {project.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {project.technologies.map((tech, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 bg-gray-200 text-gray-700 text-xs rounded"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Certifications */}
-        {certifications.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.certifications')}
-            </h2>
-            <div className="space-y-2">
-              {certifications.map((cert) => (
-                <div key={cert.id}>
-                  <h3 className="font-semibold text-gray-900">{cert.name}</h3>
-                  <p className="text-sm text-gray-600">
-                    {cert.issuer} • {cert.date}
-                    {cert.credentialId && ` • ID: ${cert.credentialId}`}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Languages */}
-        {languages.length > 0 && (
-          <section className="mb-6">
-            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
-              {t('preview.languages')}
-            </h2>
-            <div className="flex flex-wrap gap-4">
-              {languages.map((lang) => (
-                <div key={lang.id} className="text-gray-700">
-                  <span className="font-medium">{lang.name}</span>
-                  <span className="text-sm text-gray-600"> - {lang.proficiency}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+        {/* Render sections in custom order */}
+        {sectionOrder.map(sectionType => renderSection(sectionType))}
       </div>
     </div>
   )

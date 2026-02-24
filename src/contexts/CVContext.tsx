@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { CVState, TemplateType, CVProfile, CVProfileMetadata, CVData } from '../types/cv'
+import { CVState, TemplateType, CVProfile, CVProfileMetadata, CVData, SectionType } from '../types/cv'
 import {
   initializeStorage,
   getActiveProfile,
@@ -40,6 +40,7 @@ interface CVContextType {
   updateLanguage: (id: string, data: Partial<CVState['languages'][0]>) => void
   deleteLanguage: (id: string) => void
   setTemplate: (template: TemplateType) => void
+  updateSectionOrder: (newOrder: SectionType[]) => void
   resetCV: () => void
   // Profile management
   createNewProfile: (name: string) => void
@@ -228,6 +229,10 @@ export function CVProvider({ children }: { children: ReactNode }) {
     setCvData(prev => ({ ...prev, selectedTemplate: template }))
   }
 
+  const updateSectionOrder = (newOrder: SectionType[]) => {
+    setCvData(prev => ({ ...prev, sectionOrder: newOrder }))
+  }
+
   const resetCV = () => {
     setCvData(getInitialCVState())
   }
@@ -342,6 +347,7 @@ export function CVProvider({ children }: { children: ReactNode }) {
         updateLanguage,
         deleteLanguage,
         setTemplate,
+        updateSectionOrder,
         resetCV,
         createNewProfile,
         switchProfile,

@@ -82,8 +82,11 @@ export interface CVData {
 
 export type TemplateType = 'modern' | 'classic' | 'creative'
 
+export type SectionType = 'workExperience' | 'education' | 'skills' | 'projects' | 'certifications' | 'languages'
+
 export interface CVState extends CVData {
   selectedTemplate: TemplateType
+  sectionOrder: SectionType[]
   colorTheme?: {
     id: string
     name: string
