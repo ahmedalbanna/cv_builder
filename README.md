@@ -10,7 +10,7 @@ A modern, feature-rich CV/Resume builder built with React, TypeScript, and Tailw
 
 ### Core Functionality
 - **Real-time Preview**: See your CV update instantly as you type
-- **Multiple Templates**: Choose from 3 professional templates (Modern, Classic, Creative)
+- **Multiple Templates**: Choose from 7 professional templates (Modern, Classic, Creative, Minimalist, Professional, Elegant, Tech)
 - **AI-Powered Suggestions**: Generate professional content with local AI (Ollama)
 - **PDF Export**: Download your CV as a high-quality PDF
 - **Auto-save**: Your data is automatically saved in browser local storage
@@ -30,26 +30,45 @@ A modern, feature-rich CV/Resume builder built with React, TypeScript, and Tailw
 
 ### Templates
 
-#### 1. Modern Template
-- Clean contemporary design
-- Colorful header with gradient
-- Profile photo displayed alongside name
-- Blue accent colors
+We offer **7 professional templates** to suit different industries and styles:
+
+#### 1. **Modern** - Clean and contemporary
+- Colorful teal accents
+- Two-column layout with sidebar
 - Perfect for tech and creative industries
 
-#### 2. Classic Template
-- Traditional professional layout
-- Centered profile photo at top
-- Serif fonts for formal appearance
-- Black and white color scheme
-- Ideal for corporate and traditional industries
+#### 2. **Classic** - Traditional and timeless
+- Serif typography for formal appearance
+- Single-column traditional layout
+- Ideal for corporate, finance, law, and academic fields
 
-#### 3. Creative Template
-- Two-column layout with sidebar
-- Profile photo prominently in sidebar
-- Dark sidebar with white content area
-- Timeline-style experience section
+#### 3. **Creative** - Bold and colorful
+- Vibrant purple sidebar
+- Eye-catching design with icons
 - Great for designers and creative professionals
+
+#### 4. **Minimalist** - Simple and elegant
+- Ultra-clean with maximum whitespace
+- Grayscale with light font weights
+- Perfect for those who believe "less is more"
+
+#### 5. **Professional** - Corporate and polished
+- Bold blue gradient header
+- Professional timeline with dots
+- Ideal for executive roles and senior positions
+
+#### 6. **Elegant** - Sophisticated and refined
+- Centered layout with serif fonts
+- Quote-style summary section
+- Best for consultants and luxury brand professionals
+
+#### 7. **Tech** - Developer-focused terminal style
+- Dark theme with green accents (terminal-inspired)
+- HTML/XML tag-style headers (`<skills>`, `</skills>`)
+- Monospace font throughout
+- Perfect for software developers and engineers
+
+📖 **See [TEMPLATES.md](TEMPLATES.md) for detailed template comparison and selection guide**
 
 ## 🚀 Getting Started
 
@@ -96,10 +115,14 @@ cv-builder/
 │   │   │   ├── ProjectsForm.tsx
 │   │   │   ├── CertificationsForm.tsx
 │   │   │   └── LanguagesForm.tsx
-│   │   ├── templates/          # CV templates
+│   │   ├── templates/          # CV templates (7 total)
 │   │   │   ├── ModernTemplate.tsx
 │   │   │   ├── ClassicTemplate.tsx
-│   │   │   └── CreativeTemplate.tsx
+│   │   │   ├── CreativeTemplate.tsx
+│   │   │   ├── MinimalistTemplate.tsx
+│   │   │   ├── ProfessionalTemplate.tsx
+│   │   │   ├── ElegantTemplate.tsx
+│   │   │   └── TechTemplate.tsx
 │   │   ├── Header.tsx          # App header
 │   │   ├── CVForm.tsx          # Main form container
 │   │   ├── CVPreview.tsx       # Preview container
@@ -184,8 +207,9 @@ cv-builder/
 - **Languages**: List languages you speak with proficiency levels
 
 ### 6. Choose a Template
-- Select from Modern, Classic, or Creative templates
+- Select from 7 professional templates (Modern, Classic, Creative, Minimalist, Professional, Elegant, Tech)
 - Preview updates in real-time
+- Switch templates instantly - your data persists!
 
 ### 7. Export to PDF
 - Click "Export to PDF" button
@@ -250,7 +274,8 @@ The application is fully responsive:
 - [x] Photo upload support
 - [x] Custom color themes
 - [x] Drag-and-drop section reordering
-- [ ] More template options
+- [x] More template options (7 templates available!)
+- [ ] Even more specialized templates (Academic, Executive, etc.)
 - [ ] Mobile Application (APK, IOS)
 
 ## 📄 License

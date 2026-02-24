@@ -134,15 +134,15 @@ toolPermissions:
 
 announcementTracking:
   announcementViewCounts:
-    e30622d15b1c125dc75cbb7dd55a5ac8: 3
+    e30622d15b1c125dc75cbb7dd55a5ac8: 1
 
 sessionFeedback:
   permanentlyDisabled: false
   # ISO timestamp of the last provided feedback
-  lastFeedbackAsked: '2026-02-23T21:07:45.566695+00:00'
+  lastFeedbackAsked: null
 
 atlassianBillingSite:
-  siteUrl: https://albannatech.atlassian.net
+  siteUrl: https://ahmedmurtadaalbanna-1771906724869.atlassian.net
 
 smartTasks:
   # Enable Smart Tasks discovery

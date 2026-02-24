@@ -80,7 +80,7 @@ export interface CVData {
   languages: Language[]
 }
 
-export type TemplateType = 'modern' | 'classic' | 'creative'
+export type TemplateType = 'modern' | 'classic' | 'creative' | 'minimalist' | 'professional' | 'elegant' | 'tech'
 
 export type SectionType = 'workExperience' | 'education' | 'skills' | 'projects' | 'certifications' | 'languages'
 

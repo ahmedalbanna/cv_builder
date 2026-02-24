@@ -1,27 +1,29 @@
 import { useCV } from '../contexts/CVContext'
 import { TemplateType } from '../types/cv'
 import { Check } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 
 export default function TemplateSelector() {
   const { cvData, setTemplate } = useCV()
-  const { t } = useTranslation()
 
   const templates: { id: TemplateType; name: string; description: string }[] = [
-    { id: 'modern', name: t('templates.modern'), description: t('templates.modernDesc') },
-    { id: 'classic', name: t('templates.classic'), description: t('templates.classicDesc') },
-    { id: 'creative', name: t('templates.creative'), description: t('templates.creativeDesc') },
+    { id: 'modern', name: 'Modern', description: 'Clean and contemporary' },
+    { id: 'classic', name: 'Classic', description: 'Traditional and timeless' },
+    { id: 'creative', name: 'Creative', description: 'Bold and colorful' },
+    { id: 'minimalist', name: 'Minimalist', description: 'Simple and elegant' },
+    { id: 'professional', name: 'Professional', description: 'Corporate and polished' },
+    { id: 'elegant', name: 'Elegant', description: 'Sophisticated and refined' },
+    { id: 'tech', name: 'Tech', description: 'Developer-focused terminal style' },
   ]
 
   return (
     <div>
-      <label className="label-text mb-2">{t('templates.title')}</label>
-      <div className="flex gap-3">
+      <label className="label-text mb-2">Choose Template</label>
+      <div className="grid grid-cols-3 gap-3">
         {templates.map((template) => (
           <button
             key={template.id}
             onClick={() => setTemplate(template.id)}
-            className={`relative px-4 py-2 rounded-lg border-2 transition-all ${
+            className={`relative px-4 py-3 rounded-lg border-2 transition-all text-left ${
               cvData.selectedTemplate === template.id
                 ? 'border-primary-600 bg-primary-50 text-primary-700'
                 : 'border-gray-300 bg-white text-gray-700 hover:border-primary-400'
