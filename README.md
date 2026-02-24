@@ -248,7 +248,7 @@ The application is fully responsive:
 - [x] Cover letter builder
 - [x] Import from LinkedIn
 - [x] Photo upload support
-- [ ] Custom color themes
+- [x] Custom color themes
 - [ ] Drag-and-drop section reordering
 - [ ] More template options
 - [ ] Mobile Application (APK, IOS)

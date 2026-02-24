@@ -2,15 +2,18 @@ import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github, Briefcase, GraduationCap, FolderOpen } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
 import { useTranslation } from 'react-i18next'
+import { predefinedThemes } from '../../types/theme'
 
 interface Props {
   data: CVState
 }
 
 export default function CreativeTemplate({ data }: Props) {
-  const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { personalInfo, workExperience, education, skills, certifications, projects, languages, colorTheme } = data
   const { t, i18n } = useTranslation()
   const isRTL = i18n.language === 'ar'
+  
+  const theme = colorTheme || predefinedThemes[0]
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -24,24 +27,25 @@ export default function CreativeTemplate({ data }: Props) {
     <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="grid grid-cols-3 min-h-screen">
         {/* Left Sidebar */}
-        <div className="col-span-1 bg-gradient-to-b from-gray-800 to-gray-900 text-white p-6">
+        <div className="col-span-1 text-white p-6" style={{ background: `linear-gradient(to bottom, ${theme.secondary}, ${theme.primary})` }}>
           {personalInfo.photo && (
             <div className="mb-6 flex justify-center">
               <img
                 src={personalInfo.photo}
                 alt={personalInfo.fullName}
-                className="w-32 h-32 rounded-full object-cover border-4 border-primary-500 shadow-xl"
+                className="w-32 h-32 rounded-full object-cover border-4 shadow-xl"
+                style={{ borderColor: theme.accent }}
               />
             </div>
           )}
           <div className="mb-6">
             <h1 className="text-2xl font-bold mb-1">{personalInfo.fullName || 'Your Name'}</h1>
-            <div className="h-1 w-16 bg-primary-500 mb-4"></div>
+            <div className="h-1 w-16 mb-4" style={{ backgroundColor: theme.accent }}></div>
           </div>
 
           {/* Contact Info */}
           <section className="mb-6">
-            <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
+            <h2 className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: theme.accent }}>
               {t('preview.contact')}
             </h2>
             <div className="space-y-2 text-sm">
@@ -87,7 +91,7 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Skills */}
           {skills.length > 0 && (
             <section className="mb-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
+              <h2 className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: theme.accent }}>
                 {t('preview.skills')}
               </h2>
               <div className="space-y-3">
@@ -117,7 +121,7 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Languages */}
           {languages.length > 0 && (
             <section className="mb-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
+              <h2 className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: theme.accent }}>
                 {t('preview.languages')}
               </h2>
               <div className="space-y-2 text-sm">
@@ -136,7 +140,7 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Certifications */}
           {certifications.length > 0 && (
             <section className="mb-6">
-              <h2 className="text-sm font-bold uppercase tracking-wide mb-3 text-primary-400">
+              <h2 className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: theme.accent }}>
                 {t('preview.certifications')}
               </h2>
               <div className="space-y-2 text-sm">
@@ -157,8 +161,8 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Professional Summary */}
           {personalInfo.summary && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <div className="h-8 w-1 bg-primary-600"></div>
+              <h2 className="text-xl font-bold mb-3 flex items-center gap-2" style={{ color: theme.text }}>
+                <div className="h-8 w-1" style={{ backgroundColor: theme.primary }}></div>
                 {t('preview.summary')}
               </h2>
               <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
@@ -168,22 +172,22 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Work Experience */}
           {workExperience.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <div className="h-8 w-1 bg-primary-600"></div>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: theme.text }}>
+                <div className="h-8 w-1" style={{ backgroundColor: theme.primary }}></div>
                 <Briefcase className="w-5 h-5" />
                 {t('preview.experience')}
               </h2>
               <div className="space-y-5">
                 {workExperience.map((exp) => (
                   <div key={exp.id} className="relative pl-6 border-l-2 border-gray-300">
-                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-primary-600"></div>
+                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full" style={{ backgroundColor: theme.primary }}></div>
                     <div className="flex justify-between items-start mb-1">
                       <h3 className="text-lg font-bold text-gray-900">{exp.position}</h3>
                       <span className="text-sm text-gray-600 whitespace-nowrap ml-2">
                         {getDateRange(exp.startDate, exp.endDate, exp.current)}
                       </span>
                     </div>
-                    <p className="text-primary-700 font-semibold">{exp.company}</p>
+                    <p className="font-semibold" style={{ color: theme.primary }}>{exp.company}</p>
                     <p className="text-sm text-gray-500 mb-2">{exp.location}</p>
                     {exp.description && (
                       <p className="text-gray-600 leading-relaxed">{exp.description}</p>
@@ -197,15 +201,15 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Education */}
           {education.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <div className="h-8 w-1 bg-primary-600"></div>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: theme.text }}>
+                <div className="h-8 w-1" style={{ backgroundColor: theme.primary }}></div>
                 <GraduationCap className="w-5 h-5" />
                 {t('preview.education')}
               </h2>
               <div className="space-y-4">
                 {education.map((edu) => (
                   <div key={edu.id} className="relative pl-6 border-l-2 border-gray-300">
-                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-primary-600"></div>
+                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full" style={{ backgroundColor: theme.primary }}></div>
                     <div className="flex justify-between items-start mb-1">
                       <h3 className="font-bold text-gray-900">
                         {edu.degree} {edu.field && `in ${edu.field}`}
@@ -214,7 +218,7 @@ export default function CreativeTemplate({ data }: Props) {
                         {getDateRange(edu.startDate, edu.endDate, edu.current)}
                       </span>
                     </div>
-                    <p className="text-primary-700 font-medium">{edu.institution}</p>
+                    <p className="font-medium" style={{ color: theme.primary }}>{edu.institution}</p>
                     <p className="text-sm text-gray-500">
                       {edu.location}
                       {edu.gpa && ` • GPA: ${edu.gpa}`}
@@ -228,8 +232,8 @@ export default function CreativeTemplate({ data }: Props) {
           {/* Projects */}
           {projects.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <div className="h-8 w-1 bg-primary-600"></div>
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: theme.text }}>
+                <div className="h-8 w-1" style={{ backgroundColor: theme.primary }}></div>
                 <FolderOpen className="w-5 h-5" />
                 {t('preview.projects')}
               </h2>
@@ -243,7 +247,8 @@ export default function CreativeTemplate({ data }: Props) {
                         {project.technologies.map((tech, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 bg-primary-100 text-primary-800 text-xs rounded"
+                            className="px-2 py-0.5 text-xs rounded"
+                            style={{ backgroundColor: `${theme.primary}20`, color: theme.primary }}
                           >
                             {tech}
                           </span>

@@ -2,15 +2,18 @@ import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
 import { useTranslation } from 'react-i18next'
+import { predefinedThemes } from '../../types/theme'
 
 interface Props {
   data: CVState
 }
 
 export default function ClassicTemplate({ data }: Props) {
-  const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { personalInfo, workExperience, education, skills, certifications, projects, languages, colorTheme } = data
   const { t, i18n } = useTranslation()
   const isRTL = i18n.language === 'ar'
+  
+  const theme = colorTheme || predefinedThemes[0]
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -24,7 +27,7 @@ export default function ClassicTemplate({ data }: Props) {
     <div className={`bg-white shadow-lg font-serif ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="p-8">
         {/* Header */}
-        <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
+        <div className="text-center border-b-2 pb-4 mb-6" style={{ borderColor: theme.primary }}>
           {personalInfo.photo && (
             <img
               src={personalInfo.photo}
@@ -73,7 +76,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Professional Summary */}
         {personalInfo.summary && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-2 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.summary')}
             </h2>
             <p className="text-gray-700 leading-relaxed text-justify">{personalInfo.summary}</p>
@@ -83,7 +86,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Work Experience */}
         {workExperience.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.experience')}
             </h2>
             <div className="space-y-4">
@@ -113,7 +116,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Education */}
         {education.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.education')}
             </h2>
             <div className="space-y-3">
@@ -143,7 +146,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Skills */}
         {skills.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.skills')}
             </h2>
             <div className="space-y-2">
@@ -166,7 +169,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Projects */}
         {projects.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.projects')}
             </h2>
             <div className="space-y-3">
@@ -188,7 +191,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Certifications */}
         {certifications.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.certifications')}
             </h2>
             <div className="space-y-2">
@@ -205,7 +208,7 @@ export default function ClassicTemplate({ data }: Props) {
         {/* Languages */}
         {languages.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3 uppercase tracking-wide">
+            <h2 className="text-xl font-bold mb-3 uppercase tracking-wide" style={{ color: theme.primary }}>
               {t('preview.languages')}
             </h2>
             <p className="text-gray-700">

@@ -84,6 +84,16 @@ export type TemplateType = 'modern' | 'classic' | 'creative'
 
 export interface CVState extends CVData {
   selectedTemplate: TemplateType
+  colorTheme?: {
+    id: string
+    name: string
+    primary: string
+    secondary: string
+    accent: string
+    text: string
+    background: string
+    isCustom?: boolean
+  }
 }
 
 export interface CVProfile {

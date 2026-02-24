@@ -19,6 +19,7 @@ interface CVContextType {
   cvData: CVState
   currentProfile: CVProfile | null
   profiles: CVProfileMetadata[]
+  updateCVData: (data: Partial<CVState>) => void
   updatePersonalInfo: (data: Partial<CVState['personalInfo']>) => void
   addWorkExperience: (data: CVState['workExperience'][0]) => void
   updateWorkExperience: (id: string, data: Partial<CVState['workExperience'][0]>) => void
@@ -73,6 +74,10 @@ export function CVProvider({ children }: { children: ReactNode }) {
       updateProfile(currentProfile.id, cvData)
     }
   }, [cvData, currentProfile])
+
+  const updateCVData = (data: Partial<CVState>) => {
+    setCvData(prev => ({ ...prev, ...data }))
+  }
 
   const updatePersonalInfo = (data: Partial<CVState['personalInfo']>) => {
     setCvData(prev => ({
@@ -316,6 +321,7 @@ export function CVProvider({ children }: { children: ReactNode }) {
         cvData,
         currentProfile,
         profiles,
+        updateCVData,
         updatePersonalInfo,
         addWorkExperience,
         updateWorkExperience,

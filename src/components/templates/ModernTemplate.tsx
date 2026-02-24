@@ -2,15 +2,18 @@ import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
 import { useTranslation } from 'react-i18next'
+import { predefinedThemes } from '../../types/theme'
 
 interface Props {
   data: CVState
 }
 
 export default function ModernTemplate({ data }: Props) {
-  const { personalInfo, workExperience, education, skills, certifications, projects, languages } = data
+  const { personalInfo, workExperience, education, skills, certifications, projects, languages, colorTheme } = data
   const { t, i18n } = useTranslation()
   const isRTL = i18n.language === 'ar'
+  
+  const theme = colorTheme || predefinedThemes[0]
 
   const skillsByCategory = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -23,7 +26,7 @@ export default function ModernTemplate({ data }: Props) {
   return (
     <div className={`bg-white shadow-lg ${isRTL ? 'rtl' : 'ltr'}`} id="cv-preview" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-8">
+      <div className="text-white p-8" style={{ background: `linear-gradient(to right, ${theme.primary}, ${theme.secondary})` }}>
         <div className="flex items-start gap-6">
           {personalInfo.photo && (
             <img
@@ -85,7 +88,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Professional Summary */}
         {personalInfo.summary && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.summary')}
             </h2>
             <p className="text-gray-700 leading-relaxed">{personalInfo.summary}</p>
@@ -95,7 +98,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Work Experience */}
         {workExperience.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.experience')}
             </h2>
             <div className="space-y-4">
@@ -123,7 +126,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Education */}
         {education.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.education')}
             </h2>
             <div className="space-y-4">
@@ -151,7 +154,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Skills */}
         {skills.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.skills')}
             </h2>
             <div className="space-y-3">
@@ -166,7 +169,8 @@ export default function ModernTemplate({ data }: Props) {
                     {categorySkills.map((skill) => (
                       <span
                         key={skill.id}
-                        className="px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm"
+                        className="px-3 py-1 rounded-full text-sm"
+                        style={{ backgroundColor: `${theme.primary}20`, color: theme.primary }}
                       >
                         {skill.name}
                       </span>
@@ -181,7 +185,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Projects */}
         {projects.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.projects')}
             </h2>
             <div className="space-y-4">
@@ -210,7 +214,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Certifications */}
         {certifications.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.certifications')}
             </h2>
             <div className="space-y-2">
@@ -230,7 +234,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Languages */}
         {languages.length > 0 && (
           <section className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3 border-b-2 border-primary-600 pb-1">
+            <h2 className="text-2xl font-bold mb-3 border-b-2 pb-1" style={{ color: theme.text, borderColor: theme.primary }}>
               {t('preview.languages')}
             </h2>
             <div className="flex flex-wrap gap-4">

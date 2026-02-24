@@ -6,6 +6,7 @@ import SkillsForm from './forms/SkillsForm'
 import CertificationsForm from './forms/CertificationsForm'
 import ProjectsForm from './forms/ProjectsForm'
 import LanguagesForm from './forms/LanguagesForm'
+import ThemeSelector from './ThemeSelector'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -39,6 +40,9 @@ export default function CVForm() {
 
   return (
     <div className="space-y-4">
+      {/* Theme Selector */}
+      <ThemeSelector />
+      
       {sections.map(section => {
         const Component = section.component
         return (
