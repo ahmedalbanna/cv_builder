@@ -242,7 +242,7 @@ export default function WorkExperienceForm() {
                 <AISuggestionButton
                   onClick={handleGetAISuggestions}
                   size="sm"
-                  label="Generate with AI"
+                  label={t('ai.generateDescription')}
                 />
               )}
             </div>
@@ -279,7 +279,7 @@ export default function WorkExperienceForm() {
         suggestions={suggestions}
         onApply={handleApplySuggestion}
         onRetry={handleGetAISuggestions}
-        title="AI Job Description Suggestions"
+        title={t('ai.jobDescriptionSuggestions')}
         error={suggestionError}
       />
     </div>

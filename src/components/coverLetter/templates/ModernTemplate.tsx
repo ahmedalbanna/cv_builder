@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CoverLetterState } from '../../../types/coverLetter'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export default function ModernTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { senderInfo, recipientInfo, companyInfo, letterContent, date } = data
 
   const formatDate = (dateStr: string) => {
@@ -72,8 +74,8 @@ export default function ModernTemplate({ data }: Props) {
         {companyInfo.jobTitle && (
           <div className="mb-6 border-l-4 border-primary-600 pl-4">
             <p className="font-semibold text-gray-900">
-              Application for: {companyInfo.jobTitle}
-              {companyInfo.jobReference && ` (Ref: ${companyInfo.jobReference})`}
+              {t('coverLetter.applicationFor')} {companyInfo.jobTitle}
+              {companyInfo.jobReference && ` (${t('coverLetter.ref')} ${companyInfo.jobReference})`}
             </p>
           </div>
         )}
@@ -81,7 +83,7 @@ export default function ModernTemplate({ data }: Props) {
         {/* Salutation */}
         <div className="mb-6">
           <p className="font-semibold">
-            Dear {recipientInfo.hiringManager || 'Hiring Manager'},
+            {t('coverLetter.dear')} {recipientInfo.hiringManager || t('coverLetter.hiringManager')},
           </p>
         </div>
 

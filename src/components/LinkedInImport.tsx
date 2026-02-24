@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { Linkedin, Upload, X, AlertCircle, CheckCircle } from 'lucide-react'
 import { useCV } from '../contexts/CVContext'
 import { parseLinkedInData } from '../utils/linkedinParser'
+import { useTranslation } from 'react-i18next'
 
 interface LinkedInImportProps {
   isOpen: boolean
@@ -9,6 +10,7 @@ interface LinkedInImportProps {
 }
 
 export default function LinkedInImport({ isOpen, onClose }: LinkedInImportProps) {
+  const { t } = useTranslation()
   const [importing, setImporting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -114,10 +116,10 @@ export default function LinkedInImport({ isOpen, onClose }: LinkedInImportProps)
             <h3 className="font-semibold text-blue-900 mb-2">How to get your LinkedIn data:</h3>
             <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
               <li>Go to LinkedIn Settings & Privacy</li>
-              <li>Click on "Data Privacy" → "Get a copy of your data"</li>
+              <li>{t('linkedin.dataPrivacy')}</li>
               <li>Select "Want something in particular? Select the data files you're most interested in"</li>
               <li>Check: Profile, Positions, Education, Skills, Certifications</li>
-              <li>Click "Request archive"</li>
+              <li>{t('linkedin.requestArchive')}</li>
               <li>Download and extract the ZIP file</li>
               <li>Upload the JSON files here</li>
             </ol>

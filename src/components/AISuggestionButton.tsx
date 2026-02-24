@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Sparkles, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -16,6 +17,7 @@ export default function AISuggestionButton({
   variant = 'secondary',
   label = 'AI Suggest',
 }: AISuggestionButtonProps) {
+  const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = async () => {
@@ -55,7 +57,7 @@ export default function AISuggestionButton({
       {isLoading ? (
         <>
           <Loader2 className="w-4 h-4 animate-spin" />
-          <span>Generating...</span>
+          <span>{t('ui.generating')}</span>
         </>
       ) : (
         <>

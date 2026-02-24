@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { Briefcase, Sparkles, X, Check } from 'lucide-react'
 import { JobDescription } from '../../types/ats'
@@ -9,6 +10,8 @@ interface JobDescriptionInputProps {
 }
 
 export default function JobDescriptionInput({ onSave, currentJob }: JobDescriptionInputProps) {
+  const { t, i18n } = useTranslation()
+  const isRTL = i18n.language === 'ar'
   const { isConnected } = useAI()
   const [isEditing, setIsEditing] = useState(!currentJob)
   const [formData, setFormData] = useState<Partial<JobDescription>>(
@@ -31,21 +34,21 @@ export default function JobDescriptionInput({ onSave, currentJob }: JobDescripti
   if (!isEditing && currentJob) {
     return (
       <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4">
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex items-center gap-2">
+        <div className={`flex items-start ${isRTL ? 'flex-row-reverse' : ''} justify-between mb-2`}>
+          <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : ''} gap-2`}>
             <Briefcase className="w-5 h-5 text-purple-600" />
             <h4 className="font-semibold text-gray-900">{currentJob.title}</h4>
           </div>
-          <div className="flex gap-2">
+          <div className={`flex ${isRTL ? 'flex-row-reverse' : ''} gap-2 ${isRTL ? 'ml-4' : 'ml-0'}`}>
             <button
               onClick={() => setIsEditing(true)}
               className="text-sm text-purple-600 hover:text-purple-700 font-medium"
             >
-              Edit
+              {t('ats.edit')}
             </button>
             <button
               onClick={handleClear}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className={`text-sm text-gray-500 hover:text-gray-700 ${isRTL ? 'ml-2' : ''}`}
             >
               <X className="w-4 h-4" />
             </button>
@@ -53,9 +56,9 @@ export default function JobDescriptionInput({ onSave, currentJob }: JobDescripti
         </div>
         <p className="text-sm text-gray-600 line-clamp-2">{currentJob.description}</p>
         {isConnected && (
-          <div className="flex items-center gap-2 mt-2 text-xs text-purple-600">
+          <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : ''} gap-2 mt-2 text-xs text-purple-600`}>
             <Sparkles className="w-3 h-3" />
-            <span>AI analysis enabled</span>
+            <span>{t('ats.aiAnalysisEnabled')}</span>
           </div>
         )}
       </div>
@@ -64,61 +67,61 @@ export default function JobDescriptionInput({ onSave, currentJob }: JobDescripti
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4">
-      <div className="flex items-center gap-2 mb-3">
+      <div className={`flex items-center ${isRTL ? 'flex-row-reverse' : ''} gap-2 mb-3`}>
         <Briefcase className="w-5 h-5 text-purple-600" />
-        <h4 className="font-semibold text-gray-900">Target Job (Optional)</h4>
+        <h4 className={`font-semibold text-gray-900 ${isRTL ? 'text-right' : 'text-left'}`}>{t('ats.targetJob')}</h4>
       </div>
       
-      <p className="text-sm text-gray-600 mb-4">
-        Add a job description to get AI-powered keyword matching and skill gap analysis.
+      <p className={`text-sm text-gray-600 mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+        {t('ats.addJobDescription')}
       </p>
 
       <div className="space-y-3">
         <div>
-          <label className="label-text">Job Title</label>
+          <label className="label-text">{t('ats.jobTitle')}</label>
           <input
             type="text"
             value={formData.title || ''}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             className="input-field"
-            placeholder="e.g., Senior Software Engineer"
+            placeholder={t('ats.jobTitlePlaceholder')}
           />
         </div>
 
         <div>
-          <label className="label-text">Job Description</label>
+          <label className="label-text">{t('ats.jobDescription')}</label>
           <textarea
             value={formData.description || ''}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             className="input-field resize-none"
             rows={6}
-            placeholder="Paste the job description here..."
+            placeholder={t('ats.jobDescriptionPlaceholder')}
           />
-          <p className="text-xs text-gray-500 mt-1">
-            Include requirements, responsibilities, and desired skills for best results.
+          <p className={`text-xs text-gray-500 mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            {t('ats.jobDescriptionHelper')}
           </p>
         </div>
 
         {!isConnected && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-            <p className="text-sm text-yellow-800">
-              💡 Connect to Ollama in AI Settings to enable advanced keyword matching and skill gap analysis.
+            <p className={`text-sm text-yellow-800 ${isRTL ? 'text-right' : 'text-left'}`}>
+              {t('ats.connectOllamaMessage')}
             </p>
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className={`flex ${isRTL ? 'flex-row-reverse' : ''} gap-2`}>
           <button
             onClick={handleSave}
             disabled={!formData.title || !formData.description}
-            className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`btn-primary flex items-center ${isRTL ? 'flex-row-reverse' : ''} gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${isRTL ? 'ml-2' : ''}`}
           >
             <Check className="w-4 h-4" />
-            Save & Analyze
+            {t('ats.saveAndAnalyze')}
           </button>
           {currentJob && (
             <button onClick={() => setIsEditing(false)} className="btn-secondary">
-              Cancel
+              {t('ats.cancel')}
             </button>
           )}
         </div>

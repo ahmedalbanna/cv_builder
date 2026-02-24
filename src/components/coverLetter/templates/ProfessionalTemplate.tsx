@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CoverLetterState } from '../../../types/coverLetter'
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
 }
 
 export default function ProfessionalTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { senderInfo, recipientInfo, companyInfo, letterContent, date } = data
 
   const formatDate = (dateStr: string) => {
@@ -57,7 +59,7 @@ export default function ProfessionalTemplate({ data }: Props) {
       {companyInfo.jobTitle && (
         <div className="mb-6">
           <p className="text-sm font-semibold">
-            Re: {companyInfo.jobTitle}
+            {t('coverLetter.applicationForSubject')} {companyInfo.jobTitle}
             {companyInfo.jobReference && ` (${companyInfo.jobReference})`}
           </p>
         </div>
@@ -66,7 +68,7 @@ export default function ProfessionalTemplate({ data }: Props) {
       {/* Salutation */}
       <div className="mb-6">
         <p className="text-sm">
-          Dear {recipientInfo.hiringManager || 'Hiring Manager'},
+          {t('coverLetter.dear')} {recipientInfo.hiringManager || t('coverLetter.hiringManager')},
         </p>
       </div>
 

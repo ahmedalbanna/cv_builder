@@ -193,13 +193,13 @@ export default function EducationForm() {
               />
             </div>
             <div>
-              <label className="label-text">GPA (optional)</label>
+              <label className="label-text">{t('education.gpa')}</label>
               <input
                 type="text"
                 value={formData.gpa || ''}
                 onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
                 className="input-field"
-                placeholder="3.8/4.0"
+                placeholder={t('education.placeholders.gpa')}
               />
             </div>
           </div>

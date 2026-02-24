@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export default function ProfessionalTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { personalInfo, workExperience, education, skills, projects, certifications, languages } = data
 
   return (
@@ -66,7 +68,7 @@ export default function ProfessionalTemplate({ data }: Props) {
         {personalInfo.summary && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-blue-900 mb-3 pb-2 border-b-2 border-blue-900">
-              Professional Summary
+              {t('preview.professionalSummary')}
             </h2>
             <p className="text-sm leading-relaxed text-gray-700">
               {personalInfo.summary}
@@ -78,7 +80,7 @@ export default function ProfessionalTemplate({ data }: Props) {
         {workExperience.length > 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-              Professional Experience
+              {t('preview.professionalExperience')}
             </h2>
             <div className="space-y-5">
               {workExperience.map((exp) => (
@@ -109,7 +111,7 @@ export default function ProfessionalTemplate({ data }: Props) {
         {education.length > 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-              Education
+              {t('preview.education')}
             </h2>
             <div className="space-y-4">
               {education.map((edu) => (
@@ -134,7 +136,7 @@ export default function ProfessionalTemplate({ data }: Props) {
         {skills.length > 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-              Core Competencies
+              {t('preview.coreCompetencies')}
             </h2>
             <div className="grid grid-cols-3 gap-3">
               {skills.map((skill) => (
@@ -151,7 +153,7 @@ export default function ProfessionalTemplate({ data }: Props) {
         {projects.length > 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-              Key Projects
+              {t('preview.keyProjects')}
             </h2>
             <div className="space-y-4">
               {projects.map((project) => (
@@ -159,7 +161,7 @@ export default function ProfessionalTemplate({ data }: Props) {
                   <h3 className="text-base font-bold text-gray-900 mb-1">{project.name}</h3>
                   {project.technologies && (
                     <p className="text-xs text-blue-800 mb-1">
-                      Technologies: {project.technologies}
+                      {t('preview.technologies')}: {project.technologies}
                     </p>
                   )}
                   <p className="text-sm text-gray-700 leading-relaxed">
@@ -181,7 +183,7 @@ export default function ProfessionalTemplate({ data }: Props) {
           {certifications.length > 0 && (
             <div>
               <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-                Certifications
+                {t('preview.certifications')}
               </h2>
               <div className="space-y-3">
                 {certifications.map((cert) => (
@@ -200,7 +202,7 @@ export default function ProfessionalTemplate({ data }: Props) {
           {languages.length > 0 && (
             <div>
               <h2 className="text-xl font-bold text-blue-900 mb-4 pb-2 border-b-2 border-blue-900">
-                Languages
+                {t('preview.languages')}
               </h2>
               <div className="space-y-2">
                 {languages.map((lang) => (

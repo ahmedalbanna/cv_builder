@@ -189,7 +189,7 @@ export default function PersonalInfoForm() {
             <AISuggestionButton
               onClick={handleGetAISuggestions}
               size="sm"
-              label="Generate with AI"
+              label={t('ai.generateSummary')}
             />
           )}
         </div>
@@ -217,7 +217,7 @@ export default function PersonalInfoForm() {
         suggestions={suggestions}
         onApply={handleApplySuggestion}
         onRetry={handleGetAISuggestions}
-        title="AI Professional Summary Suggestions"
+        title={t('ai.summarySuggestions')}
         error={suggestionError}
       />
     </div>

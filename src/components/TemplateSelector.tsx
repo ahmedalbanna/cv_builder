@@ -1,23 +1,25 @@
+import { useTranslation } from 'react-i18next'
 import { useCV } from '../contexts/CVContext'
 import { TemplateType } from '../types/cv'
 import { Check } from 'lucide-react'
 
 export default function TemplateSelector() {
+  const { t } = useTranslation()
   const { cvData, setTemplate } = useCV()
 
-  const templates: { id: TemplateType; name: string; description: string }[] = [
-    { id: 'modern', name: 'Modern', description: 'Clean and contemporary' },
-    { id: 'classic', name: 'Classic', description: 'Traditional and timeless' },
-    { id: 'creative', name: 'Creative', description: 'Bold and colorful' },
-    { id: 'minimalist', name: 'Minimalist', description: 'Simple and elegant' },
-    { id: 'professional', name: 'Professional', description: 'Corporate and polished' },
-    { id: 'elegant', name: 'Elegant', description: 'Sophisticated and refined' },
-    { id: 'tech', name: 'Tech', description: 'Developer-focused terminal style' },
+  const templates: { id: TemplateType; name: string; descKey: string }[] = [
+    { id: 'modern', name: t('templates.modern'), descKey: 'templates.modernDesc' },
+    { id: 'classic', name: t('templates.classic'), descKey: 'templates.classicDesc' },
+    { id: 'creative', name: t('templates.creative'), descKey: 'templates.creativeDesc' },
+    { id: 'minimalist', name: t('templates.minimalist'), descKey: 'templates.minimalistDesc' },
+    { id: 'professional', name: t('templates.professional'), descKey: 'templates.professionalDesc' },
+    { id: 'elegant', name: t('templates.elegant'), descKey: 'templates.elegantDesc' },
+    { id: 'tech', name: t('templates.tech'), descKey: 'templates.techDesc' },
   ]
 
   return (
     <div>
-      <label className="label-text mb-2">Choose Template</label>
+      <label className="label-text mb-2">{t('templates.title')}</label>
       <div className="grid grid-cols-3 gap-3">
         {templates.map((template) => (
           <button
@@ -35,7 +37,7 @@ export default function TemplateSelector() {
               </div>
             )}
             <div className="font-semibold">{template.name}</div>
-            <div className="text-xs mt-1 opacity-75">{template.description}</div>
+            <div className="text-xs mt-1 opacity-75">{t(template.descKey)}</div>
           </button>
         ))}
       </div>

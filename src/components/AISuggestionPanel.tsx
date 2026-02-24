@@ -1,5 +1,6 @@
 import { X, Copy, Check, RefreshCw, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface AISuggestionPanelProps {
   isOpen: boolean
@@ -20,6 +21,7 @@ export default function AISuggestionPanel({
   title = 'AI Suggestions',
   error = null,
 }: AISuggestionPanelProps) {
+  const { t } = useTranslation()
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const [isRetrying, setIsRetrying] = useState(false)
 
@@ -97,7 +99,7 @@ export default function AISuggestionPanel({
                 onClick={handleRetry}
                 disabled={isRetrying}
                 className="p-2 hover:bg-white rounded-lg transition-colors"
-                title="Generate new suggestions"
+                title={t('ai.generateNewSuggestions')}
               >
                 <RefreshCw className={`w-5 h-5 text-gray-600 ${isRetrying ? 'animate-spin' : ''}`} />
               </button>
@@ -118,7 +120,7 @@ export default function AISuggestionPanel({
             <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-medium text-red-900 mb-1">Error</h4>
+                <h4 className="font-medium text-red-900 mb-1">{t('ui.error')}</h4>
                 <p className="text-sm text-red-700">{error}</p>
                 {onRetry && (
                   <button
@@ -127,14 +129,14 @@ export default function AISuggestionPanel({
                     disabled={isRetrying}
                     className="mt-3 text-sm text-red-700 underline hover:text-red-900"
                   >
-                    Try again
+                    {t('ui.tryAgain')}
                   </button>
                 )}
               </div>
             </div>
           ) : displaySuggestions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              <p>No suggestions available</p>
+              <p>{t('ui.noSuggestionsAvailable')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -151,7 +153,7 @@ export default function AISuggestionPanel({
                       type="button"
                       onClick={() => handleCopy(suggestion, index)}
                       className="p-2 bg-white hover:bg-gray-50 rounded-lg border border-gray-300 transition-colors"
-                      title="Copy to clipboard"
+                      title={t('ai.copyToClipboard')}
                     >
                       {copiedIndex === index ? (
                         <Check className="w-4 h-4 text-green-600" />
@@ -164,7 +166,7 @@ export default function AISuggestionPanel({
                       onClick={() => handleApply(suggestion)}
                       className="px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors"
                     >
-                      Apply
+                      {t('ui.apply')}
                     </button>
                   </div>
                 </div>

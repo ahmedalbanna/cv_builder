@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import { useCV } from '../contexts/CVContext'
 import { ChevronDown, Plus, Edit2, Copy, Trash2, Download, Upload, Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function CVSwitcher() {
+  const { t } = useTranslation()
   const {
     currentProfile,
     profiles,
@@ -155,7 +157,7 @@ export default function CVSwitcher() {
                             handleRename(profile.id, profile.name)
                           }}
                           className="p-1 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded"
-                          title="Rename"
+                          title={t('actions.rename')}
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
@@ -165,7 +167,7 @@ export default function CVSwitcher() {
                             handleDuplicate(profile.id)
                           }}
                           className="p-1 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded"
-                          title="Duplicate"
+                          title={t('actions.duplicate')}
                         >
                           <Copy className="w-4 h-4" />
                         </button>
@@ -175,7 +177,7 @@ export default function CVSwitcher() {
                             handleExport(profile.id)
                           }}
                           className="p-1 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded"
-                          title="Export"
+                          title={t('actions.export')}
                         >
                           <Download className="w-4 h-4" />
                         </button>
@@ -186,7 +188,7 @@ export default function CVSwitcher() {
                               handleDelete(profile.id)
                             }}
                             className="p-1 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
-                            title="Delete"
+                            title={t('actions.delete')}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -232,7 +234,7 @@ export default function CVSwitcher() {
       {showNewDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Create New CV</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('cv.createNew')}</h3>
             <input
               type="text"
               value={newName}
@@ -250,14 +252,14 @@ export default function CVSwitcher() {
                 }}
                 className="btn-secondary"
               >
-                Cancel
+                {t('actions.cancel')}
               </button>
               <button
                 onClick={confirmNewProfile}
                 disabled={!newName.trim()}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create
+                {t('actions.create')}
               </button>
             </div>
           </div>
@@ -268,12 +270,12 @@ export default function CVSwitcher() {
       {showRenameDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Rename CV</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('cv.renameCv')}</h3>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              placeholder="Enter new name"
+              placeholder={t('ui.enterNewName')}
               className="input-field mb-4"
               autoFocus
               onKeyDown={(e) => e.key === 'Enter' && confirmRename()}
@@ -287,14 +289,14 @@ export default function CVSwitcher() {
                 }}
                 className="btn-secondary"
               >
-                Cancel
+                {t('actions.cancel')}
               </button>
               <button
                 onClick={confirmRename}
                 disabled={!newName.trim()}
                 className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Rename
+                {t('actions.rename')}
               </button>
             </div>
           </div>
@@ -305,9 +307,9 @@ export default function CVSwitcher() {
       {showDeleteDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete CV</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('cv.deleteCv')}</h3>
             <p className="text-gray-600 mb-4">
-              Are you sure you want to delete this CV? This action cannot be undone.
+              {t('cv.deleteConfirmation')}
             </p>
             <div className="flex gap-3 justify-end">
               <button
@@ -317,13 +319,13 @@ export default function CVSwitcher() {
                 }}
                 className="btn-secondary"
               >
-                Cancel
+                {t('actions.cancel')}
               </button>
               <button
                 onClick={confirmDelete}
                 className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
               >
-                Delete
+                {t('actions.delete')}
               </button>
             </div>
           </div>

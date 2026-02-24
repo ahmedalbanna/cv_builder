@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { GripVertical, Trash2, Edit2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   id: string
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function DraggableListItem({ id, children, onEdit, onDelete }: Props) {
+  const { t } = useTranslation()
   const {
     attributes,
     listeners,
@@ -37,7 +39,7 @@ export default function DraggableListItem({ id, children, onEdit, onDelete }: Pr
           {...attributes}
           {...listeners}
           className="flex-shrink-0 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 transition-colors pt-1"
-          aria-label="Drag to reorder"
+          aria-label={t('ui.dragToReorder')}
         >
           <GripVertical className="w-5 h-5" />
         </div>

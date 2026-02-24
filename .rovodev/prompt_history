@@ -199,3 +199,81 @@
 
 # 2026-02-24 05:03:52.324234
 +make items sections dragable not main sections
+
+# 2026-02-24 05:09:29.591726
++/sessions 
+
+# 2026-02-24 05:10:42.273869
++update local language components
+
+# 2026-02-24 05:15:28.090725
++/models 
+
+# 2026-02-24 05:15:33.427292
++/yolo 
+
+# 2026-02-24 05:15:43.459040
++/sessions fork 
+
+# 2026-02-24 05:15:55.278916
++complete translate all text
+
+# 2026-02-24 05:21:13.745056
++search for any text not translated
+
+# 2026-02-24 05:28:23.915860
++/sessions 
+
+# 2026-02-24 05:29:25.994860
++translate text src/components/CVForm.tsx src/components/Header.tsx src/components/TemplateSelector.tsx 
+
+# 2026-02-24 05:32:14.939973
++translate text src/components/coverLetter/forms/CompanyInfoForm.tsx src/components/coverLetter/forms/LetterContentForm.tsx src/components/coverLetter/forms/RecipientInfoForm.tsx src/components/coverLetter/forms/SenderInfoForm.tsx 
+
+# 2026-02-24 05:34:44.550924
++translate text src/components/coverLetter/CoverLetterForm.tsx src/components/coverLetter/CoverLetterExportButton.tsx src/components/coverLetter/CoverLetterTemplateSelector.tsx src/components/coverLetter/CoverLetterPreview.tsx 
+
+# 2026-02-24 05:35:52.203669
++translate text src/components/coverLetter/templates/ModernTemplate.tsx src/components/coverLetter/templates/ProfessionalTemplate.tsx src/components/coverLetter/templates/SimpleTemplate.tsx 
+
+# 2026-02-24 05:37:41.883528
++translate text src/components/templates/ClassicTemplate.tsx src/components/templates/CreativeTemplate.tsx src/components/templates/ElegantTemplate.tsx src/components/templates/MinimalistTemplate.tsx src/components/coverLetter/templates/ModernTemplate.tsx src/components/coverLetter/templates/ProfessionalTemplate.tsx src/components/templates/TechTemplate.tsx 
+
+# 2026-02-24 05:42:10.732143
++translate text src/components/ExportButton.tsx src/components/AISettingsPanel.tsx src/components/AISuggestionButton.tsx src/components/AISuggestionPanel.tsx src/components/ThemeSelector.tsx 
+
+# 2026-02-24 05:45:17.440155
++translate text src/components/ats/ATSDetailedBreakdown.tsx src/components/ats/ATSScoreCard.tsx src/components/ats/ATSWarning.tsx src/components/ats/JobDescriptionInput.tsx 
+
+# 2026-02-24 05:48:33.389929
++translate text src/utils/atsChecker.ts 
+
+# 2026-02-24 05:56:18.325180
++do the best
+
+# 2026-02-24 06:04:37.682292
++can you run npm run build to see errors
+
+# 2026-02-24 06:07:23.758990
++complete translate ats checker
+
+# 2026-02-24 06:11:06.983339
++complete translate ats checker en and ar
+
+# 2026-02-24 06:13:48.633319
++make translate varables pass as it. such {count} skills listed
+
+# 2026-02-24 06:16:14.703551
++also on ar
+
+# 2026-02-24 06:17:39.722034
++make src/components/ats/ATSDetailedBreakdown.tsx support RTL in arabic
+
+# 2026-02-24 06:19:33.222870
++also support RTL arabic src/components/ats/ATSScoreCard.tsx src/components/ats/ATSWarning.tsx src/components/ats/JobDescriptionInput.tsx 
+
+# 2026-02-24 06:21:25.143520
++make sure support RTL and LTR src/components/ats 
+
+# 2026-02-24 06:27:22.134758
++translate text src/components/InstallPrompt.tsx 

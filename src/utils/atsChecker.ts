@@ -8,18 +8,32 @@ const ACTION_VERBS = [
   'coordinated', 'executed', 'delivered', 'spearheaded', 'streamlined', 'analyzed'
 ]
 
-export function analyzeCV(cvData: CVState, config: ATSConfig): ATSAnalysisResult {
+export function analyzeCV(cvData: CVState, config: ATSConfig, t?: (key: string, options?: any) => string | undefined): ATSAnalysisResult {
+  // Fallback translation function if not provided
+  const translate = (key: string, options?: string | any): string => {
+    if (t) {
+      // If options is a string, use it as default value
+      if (typeof options === 'string') {
+        const result = t(key)
+        return result || options || key
+      }
+      // If options is an object, pass it for interpolation
+      const result = t(key, options)
+      return result || key
+    }
+    return typeof options === 'string' ? options : key
+  }
   const checks: ATSCheck[] = []
   
   // Run all checks
-  checks.push(...checkContactInfo(cvData))
-  checks.push(...checkKeywords(cvData, config))
-  checks.push(...checkFormatting(cvData))
-  checks.push(...checkContent(cvData))
-  checks.push(...checkSections(cvData))
+  checks.push(...checkContactInfo(cvData, translate))
+  checks.push(...checkKeywords(cvData, config, translate))
+  checks.push(...checkFormatting(cvData, translate))
+  checks.push(...checkContent(cvData, translate))
+  checks.push(...checkSections(cvData, translate))
   
   // Group by category
-  const categoryScores = calculateCategoryScores(checks)
+  const categoryScores = calculateCategoryScores(checks, translate)
   
   // Calculate overall score
   const overallScore = Math.round(
@@ -49,62 +63,66 @@ export function analyzeCV(cvData: CVState, config: ATSConfig): ATSAnalysisResult
   }
 }
 
-function checkContactInfo(cvData: CVState): ATSCheck[] {
+function checkContactInfo(cvData: CVState, t: (key: string, options?: string | any) => string): ATSCheck[] {
   const checks: ATSCheck[] = []
   const { personalInfo } = cvData
   
   // Email check
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalInfo.email)
   checks.push({
     id: 'contact-email',
     category: 'contact',
-    name: 'Valid Email',
-    passed: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalInfo.email),
+    name: t('ats.checks.validEmail', 'Valid Email'),
+    passed: emailValid,
     severity: 'critical',
-    message: personalInfo.email ? 'Email format is valid' : 'Email is missing or invalid',
-    suggestion: 'Use a professional email address (e.g., firstname.lastname@email.com)',
-    score: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalInfo.email) ? 100 : 0,
+    message: emailValid ? t('ats.messages.emailValid', 'Email format is valid') : t('ats.messages.emailInvalid', 'Email is missing or invalid'),
+    suggestion: t('ats.suggestions.professionalEmail', 'Use a professional email address (e.g., firstname.lastname@email.com)'),
+    score: emailValid ? 100 : 0,
   })
   
   // Phone check
+  const phoneValid = personalInfo.phone.length >= 10
   checks.push({
     id: 'contact-phone',
     category: 'contact',
-    name: 'Phone Number',
-    passed: personalInfo.phone.length >= 10,
+    name: t('ats.checks.phoneNumber', 'Phone Number'),
+    passed: phoneValid,
     severity: 'critical',
-    message: personalInfo.phone ? 'Phone number provided' : 'Phone number is missing',
-    suggestion: 'Include a phone number with area code',
-    score: personalInfo.phone.length >= 10 ? 100 : 0,
+    message: personalInfo.phone ? t('ats.messages.phoneProvided', 'Phone number provided') : t('ats.messages.phoneMissing', 'Phone number is missing'),
+    suggestion: t('ats.suggestions.includePhone', 'Include a phone number with area code'),
+    score: phoneValid ? 100 : 0,
   })
   
   // Location check
+  const locationValid = personalInfo.location.length > 0
   checks.push({
     id: 'contact-location',
     category: 'contact',
-    name: 'Location',
-    passed: personalInfo.location.length > 0,
+    name: t('ats.checks.location', 'Location'),
+    passed: locationValid,
     severity: 'warning',
-    message: personalInfo.location ? 'Location provided' : 'Location is missing',
-    suggestion: 'Include at least city and state/country',
-    score: personalInfo.location.length > 0 ? 100 : 0,
+    message: locationValid ? t('ats.messages.locationProvided', 'Location provided') : t('ats.messages.locationMissing', 'Location is missing'),
+    suggestion: t('ats.suggestions.includeLocation', 'Include at least city and state/country'),
+    score: locationValid ? 100 : 0,
   })
   
   // LinkedIn check
+  const linkedinValid = !!personalInfo.linkedin
   checks.push({
     id: 'contact-linkedin',
     category: 'contact',
-    name: 'LinkedIn Profile',
-    passed: !!personalInfo.linkedin,
+    name: t('ats.checks.linkedinProfile', 'LinkedIn Profile'),
+    passed: linkedinValid,
     severity: 'info',
-    message: personalInfo.linkedin ? 'LinkedIn profile included' : 'Consider adding LinkedIn profile',
-    suggestion: 'Add your LinkedIn URL for better visibility',
-    score: personalInfo.linkedin ? 100 : 50,
+    message: linkedinValid ? t('ats.messages.linkedinIncluded', 'LinkedIn profile included') : t('ats.messages.linkedinOptional', 'Consider adding LinkedIn profile'),
+    suggestion: t('ats.suggestions.addLinkedin', 'Add your LinkedIn URL for better visibility'),
+    score: linkedinValid ? 100 : 50,
   })
   
   return checks
 }
 
-function checkKeywords(cvData: CVState, _config: ATSConfig): ATSCheck[] {
+function checkKeywords(cvData: CVState, _config: ATSConfig, t: (key: string, options?: string | any) => string): ATSCheck[] {
   const checks: ATSCheck[] = []
   
   // Get all text from CV
@@ -114,52 +132,55 @@ function checkKeywords(cvData: CVState, _config: ATSConfig): ATSCheck[] {
   // Check for skill keywords
   const skillKeywords = cvData.skills.map(s => s.name.toLowerCase())
   const skillMentions = skillKeywords.filter(skill => cvText.includes(skill)).length
+  const skillsValid = skillMentions >= cvData.skills.length * 0.7
   
   checks.push({
     id: 'keywords-skills',
     category: 'keywords',
-    name: 'Skill Keywords',
-    passed: skillMentions >= cvData.skills.length * 0.7,
+    name: t('ats.checks.skillKeywords', 'Skill Keywords'),
+    passed: skillsValid,
     severity: 'warning',
-    message: `${skillMentions} of ${cvData.skills.length} skills mentioned in CV content`,
-    suggestion: 'Incorporate your listed skills naturally throughout your experience descriptions',
+    message: t('ats.messages.skillsMentioned', { count: skillMentions, total: cvData.skills.length }),
+    suggestion: t('ats.suggestions.incorporateSkills', 'Incorporate your listed skills naturally throughout your experience descriptions'),
     score: cvData.skills.length > 0 ? Math.round((skillMentions / cvData.skills.length) * 100) : 100,
   })
   
   // Check keyword density (should be 1-3%)
   const uniqueKeywords = new Set([...skillKeywords]).size
   const keywordDensity = (uniqueKeywords / wordCount) * 100
+  const densityValid = keywordDensity >= 1 && keywordDensity <= 3
   
   checks.push({
     id: 'keywords-density',
     category: 'keywords',
-    name: 'Keyword Density',
-    passed: keywordDensity >= 1 && keywordDensity <= 3,
+    name: t('ats.checks.keywordDensity', 'Keyword Density'),
+    passed: densityValid,
     severity: 'info',
-    message: `Keyword density: ${keywordDensity.toFixed(1)}%`,
-    suggestion: 'Aim for 1-3% keyword density for optimal ATS performance',
-    score: keywordDensity >= 1 && keywordDensity <= 3 ? 100 : 60,
+    message: t('ats.messages.keywordDensity', { density: keywordDensity.toFixed(1) }),
+    suggestion: t('ats.suggestions.keywordDensity', 'Aim for 1-3% keyword density for optimal ATS performance'),
+    score: densityValid ? 100 : 60,
   })
   
   return checks
 }
 
-function checkFormatting(cvData: CVState): ATSCheck[] {
+function checkFormatting(cvData: CVState, t: (key: string, options?: string | any) => string): ATSCheck[] {
   const checks: ATSCheck[] = []
   
   // Check for standard section headings
   const hasWorkExperience = cvData.workExperience.length > 0
   const hasEducation = cvData.education.length > 0
   const hasSkills = cvData.skills.length > 0
+  const sectionsValid = hasWorkExperience && hasEducation && hasSkills
   
   checks.push({
     id: 'format-sections',
     category: 'formatting',
-    name: 'Standard Sections',
-    passed: hasWorkExperience && hasEducation && hasSkills,
+    name: t('ats.checks.standardSections', 'Standard Sections'),
+    passed: sectionsValid,
     severity: 'warning',
-    message: 'CV contains standard sections (Experience, Education, Skills)',
-    suggestion: 'Include all standard CV sections for better ATS compatibility',
+    message: t('ats.messages.standardSections', 'CV contains standard sections (Experience, Education, Skills)'),
+    suggestion: t('ats.suggestions.includeAllSections', 'Include all standard CV sections for better ATS compatibility'),
     score: [hasWorkExperience, hasEducation, hasSkills].filter(Boolean).length * 33,
   })
   
@@ -170,18 +191,18 @@ function checkFormatting(cvData: CVState): ATSCheck[] {
   checks.push({
     id: 'format-summary',
     category: 'formatting',
-    name: 'Professional Summary',
+    name: t('ats.checks.professionalSummary', 'Professional Summary'),
     passed: summaryOptimal,
     severity: 'info',
-    message: `Summary length: ${summaryLength} characters`,
-    suggestion: 'Keep professional summary between 100-300 characters (2-4 sentences)',
+    message: t('ats.messages.summaryLength', { length: summaryLength }),
+    suggestion: t('ats.suggestions.summaryLength', 'Keep professional summary between 100-300 characters (2-4 sentences)'),
     score: summaryOptimal ? 100 : summaryLength > 0 ? 70 : 0,
   })
   
   return checks
 }
 
-function checkContent(cvData: CVState): ATSCheck[] {
+function checkContent(cvData: CVState, t: (key: string, options?: string | any) => string): ATSCheck[] {
   const checks: ATSCheck[] = []
   
   // Check for action verbs in experience
@@ -191,69 +212,73 @@ function checkContent(cvData: CVState): ATSCheck[] {
   
   const actionVerbsUsed = ACTION_VERBS.filter(verb => experienceText.includes(verb))
   const actionVerbScore = Math.min((actionVerbsUsed.length / 5) * 100, 100)
+  const verbsValid = actionVerbsUsed.length >= 3
   
   checks.push({
     id: 'content-action-verbs',
     category: 'content',
-    name: 'Action Verbs',
-    passed: actionVerbsUsed.length >= 3,
+    name: t('ats.checks.actionVerbs', 'Action Verbs'),
+    passed: verbsValid,
     severity: 'warning',
-    message: `${actionVerbsUsed.length} action verbs found in experience descriptions`,
-    suggestion: 'Start bullet points with strong action verbs (achieved, developed, led, etc.)',
+    message: t('ats.messages.actionVerbsFound', { count: actionVerbsUsed.length }),
+    suggestion: t('ats.suggestions.useActionVerbs', 'Start bullet points with strong action verbs (achieved, developed, led, etc.)'),
     score: actionVerbScore,
   })
   
   // Check for quantifiable achievements
   const hasNumbers = /\d+/.test(experienceText)
   const hasPercentage = /%/.test(experienceText)
+  const metricsValid = hasNumbers || hasPercentage
   
   checks.push({
     id: 'content-metrics',
     category: 'content',
-    name: 'Quantifiable Achievements',
-    passed: hasNumbers || hasPercentage,
+    name: t('ats.checks.quantifiableAchievements', 'Quantifiable Achievements'),
+    passed: metricsValid,
     severity: 'info',
-    message: hasNumbers || hasPercentage ? 'Includes quantifiable metrics' : 'No metrics found',
-    suggestion: 'Add numbers, percentages, or metrics to demonstrate impact',
-    score: (hasNumbers || hasPercentage) ? 100 : 40,
+    message: metricsValid ? t('ats.messages.metricsIncluded', 'Includes quantifiable metrics') : t('ats.messages.noMetrics', 'No metrics found'),
+    suggestion: t('ats.suggestions.addMetrics', 'Add numbers, percentages, or metrics to demonstrate impact'),
+    score: metricsValid ? 100 : 40,
   })
   
   return checks
 }
 
-function checkSections(cvData: CVState): ATSCheck[] {
+function checkSections(cvData: CVState, t: (key: string, options?: string | any) => string): ATSCheck[] {
   const checks: ATSCheck[] = []
   
   // Check experience completeness
   const experienceComplete = cvData.workExperience.every(exp => 
     exp.company && exp.position && exp.startDate && exp.description
   )
+  const expValid = experienceComplete && cvData.workExperience.length > 0
   
   checks.push({
     id: 'sections-experience',
     category: 'sections',
-    name: 'Work Experience Completeness',
-    passed: experienceComplete && cvData.workExperience.length > 0,
+    name: t('ats.checks.workExperienceCompleteness', 'Work Experience Completeness'),
+    passed: expValid,
     severity: 'warning',
-    message: experienceComplete ? 'All experience entries are complete' : 'Some experience entries are incomplete',
-    suggestion: 'Fill in all required fields: company, position, dates, and description',
-    score: experienceComplete && cvData.workExperience.length > 0 ? 100 : 50,
+    message: experienceComplete ? t('ats.messages.experienceComplete', 'All experience entries are complete') : t('ats.messages.experienceIncomplete', 'Some experience entries are incomplete'),
+    suggestion: t('ats.suggestions.fillExperienceFields', 'Fill in all required fields: company, position, dates, and description'),
+    score: expValid ? 100 : 50,
   })
   
   // Check education completeness
   const educationComplete = cvData.education.every(edu => 
     edu.institution && edu.degree && edu.field
   )
+  const eduValid = educationComplete && cvData.education.length > 0
   
   checks.push({
     id: 'sections-education',
     category: 'sections',
-    name: 'Education Completeness',
-    passed: educationComplete && cvData.education.length > 0,
+    name: t('ats.checks.educationCompleteness', 'Education Completeness'),
+    passed: eduValid,
     severity: 'info',
-    message: educationComplete ? 'All education entries are complete' : 'Some education entries are incomplete',
-    suggestion: 'Include institution, degree, and field of study',
-    score: educationComplete && cvData.education.length > 0 ? 100 : 70,
+    message: educationComplete ? t('ats.messages.educationComplete', 'All education entries are complete') : t('ats.messages.educationIncomplete', 'Some education entries are incomplete'),
+    suggestion: t('ats.suggestions.fillEducationFields', 'Include institution, degree, and field of study'),
+    score: eduValid ? 100 : 70,
   })
   
   // Check skills count
@@ -262,24 +287,26 @@ function checkSections(cvData: CVState): ATSCheck[] {
   checks.push({
     id: 'sections-skills',
     category: 'sections',
-    name: 'Skills Section',
+    name: t('ats.checks.skillsSection', 'Skills Section'),
     passed: hasEnoughSkills,
     severity: 'info',
-    message: `${cvData.skills.length} skills listed`,
-    suggestion: 'List at least 5-10 relevant skills',
+    message: t('ats.messages.skillsCount', { count: cvData.skills.length }),
+    suggestion: t('ats.suggestions.listSkills', 'List at least 5-10 relevant skills'),
     score: Math.min((cvData.skills.length / 8) * 100, 100),
   })
   
   return checks
 }
 
-function calculateCategoryScores(checks: ATSCheck[]): ATSCategoryScore[] {
+function calculateCategoryScores(checks: ATSCheck[], t?: (key: string, options?: string | any) => string): ATSCategoryScore[] {
+  const translate = t || ((key: string, options?: string | any): string => typeof options === 'string' ? options : key)
+  
   const categories: ATSCategoryScore[] = [
-    { category: 'contact', categoryName: 'Contact Information', score: 0, passed: 0, total: 0, checks: [] },
-    { category: 'keywords', categoryName: 'Keywords & Skills', score: 0, passed: 0, total: 0, checks: [] },
-    { category: 'formatting', categoryName: 'Formatting', score: 0, passed: 0, total: 0, checks: [] },
-    { category: 'content', categoryName: 'Content Quality', score: 0, passed: 0, total: 0, checks: [] },
-    { category: 'sections', categoryName: 'Section Completeness', score: 0, passed: 0, total: 0, checks: [] },
+    { category: 'contact', categoryName: translate('ats.checkCategories.contactInformation', 'Contact Information'), score: 0, passed: 0, total: 0, checks: [] },
+    { category: 'keywords', categoryName: translate('ats.checkCategories.keywordsAndSkills', 'Keywords & Skills'), score: 0, passed: 0, total: 0, checks: [] },
+    { category: 'formatting', categoryName: translate('ats.checkCategories.formatting', 'Formatting'), score: 0, passed: 0, total: 0, checks: [] },
+    { category: 'content', categoryName: translate('ats.checkCategories.contentQuality', 'Content Quality'), score: 0, passed: 0, total: 0, checks: [] },
+    { category: 'sections', categoryName: translate('ats.checkCategories.sectionCompleteness', 'Section Completeness'), score: 0, passed: 0, total: 0, checks: [] },
   ]
   
   checks.forEach(check => {

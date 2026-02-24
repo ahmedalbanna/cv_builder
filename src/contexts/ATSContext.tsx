@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useCV } from './CVContext'
 import { useAI } from './AIContext'
 import { 
@@ -28,6 +29,7 @@ const ATSContext = createContext<ATSContextType | undefined>(undefined)
 export function ATSProvider({ children }: { children: ReactNode }) {
   const { cvData } = useCV()
   const { getSuggestion, isConnected } = useAI()
+  const { t } = useTranslation()
   
   const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(null)
   const [aiAnalysis, setAIAnalysis] = useState<AIATSAnalysis | null>(null)
@@ -58,7 +60,7 @@ export function ATSProvider({ children }: { children: ReactNode }) {
   const runAnalysis = async () => {
     setIsAnalyzing(true)
     try {
-      const result = analyzeCV(cvData, config)
+      const result = analyzeCV(cvData, config, t)
       setAnalysisResult(result)
     } catch (error) {
       console.error('ATS analysis error:', error)

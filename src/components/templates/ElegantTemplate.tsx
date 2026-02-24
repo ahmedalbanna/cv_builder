@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export default function ElegantTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { personalInfo, workExperience, education, skills, projects, certifications, languages } = data
 
   return (
@@ -57,7 +59,7 @@ export default function ElegantTemplate({ data }: Props) {
         {workExperience.length > 0 && (
           <div className="mb-10">
             <h2 className="text-2xl font-light text-center mb-6 text-gray-900">
-              <span className="inline-block border-b-2 border-gray-900 pb-1">Experience</span>
+              <span className="inline-block border-b-2 border-gray-900 pb-1">{t('preview.experience')}</span>
             </h2>
             <div className="space-y-6">
               {workExperience.map((exp, index) => (
@@ -82,7 +84,7 @@ export default function ElegantTemplate({ data }: Props) {
         {education.length > 0 && (
           <div className="mb-10">
             <h2 className="text-2xl font-light text-center mb-6 text-gray-900">
-              <span className="inline-block border-b-2 border-gray-900 pb-1">Education</span>
+              <span className="inline-block border-b-2 border-gray-900 pb-1">{t('preview.education')}</span>
             </h2>
             <div className="space-y-4">
               {education.map((edu) => (
@@ -104,7 +106,7 @@ export default function ElegantTemplate({ data }: Props) {
         {skills.length > 0 && (
           <div className="mb-10">
             <h2 className="text-2xl font-light text-center mb-6 text-gray-900">
-              <span className="inline-block border-b-2 border-gray-900 pb-1">Skills</span>
+              <span className="inline-block border-b-2 border-gray-900 pb-1">{t('preview.skills')}</span>
             </h2>
             <div className="text-center">
               <p className="text-sm text-gray-700 leading-relaxed">
@@ -118,7 +120,7 @@ export default function ElegantTemplate({ data }: Props) {
         {projects.length > 0 && (
           <div className="mb-10">
             <h2 className="text-2xl font-light text-center mb-6 text-gray-900">
-              <span className="inline-block border-b-2 border-gray-900 pb-1">Projects</span>
+              <span className="inline-block border-b-2 border-gray-900 pb-1">{t('preview.projects')}</span>
             </h2>
             <div className="space-y-4">
               {projects.map((project) => (
@@ -139,7 +141,7 @@ export default function ElegantTemplate({ data }: Props) {
             {certifications.length > 0 && (
               <div>
                 <h2 className="text-xl font-light text-center mb-4 text-gray-900">
-                  Certifications
+                  {t('preview.certifications')}
                 </h2>
                 <div className="space-y-2">
                   {certifications.map((cert) => (
@@ -155,7 +157,7 @@ export default function ElegantTemplate({ data }: Props) {
             {languages.length > 0 && (
               <div>
                 <h2 className="text-xl font-light text-center mb-4 text-gray-900">
-                  Languages
+                  {t('preview.languages')}
                 </h2>
                 <div className="space-y-2">
                   {languages.map((lang) => (

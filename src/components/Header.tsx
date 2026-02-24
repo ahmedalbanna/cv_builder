@@ -44,7 +44,7 @@ export default function Header({ activeTab, onTabChange }: HeaderProps) {
             }`}
           >
             <FileText className="w-4 h-4" />
-            Resume/CV
+            {t('header.cv')}
           </button>
           <button
             onClick={() => onTabChange('coverLetter')}
@@ -55,7 +55,7 @@ export default function Header({ activeTab, onTabChange }: HeaderProps) {
             }`}
           >
             <Mail className="w-4 h-4" />
-            Cover Letter
+            {t('header.coverLetter')}
           </button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { AlertCircle, AlertTriangle, Info } from 'lucide-react'
 import { ATSCheck } from '../../types/ats'
 
@@ -7,6 +8,9 @@ interface ATSWarningProps {
 }
 
 export default function ATSWarning({ check, compact = false }: ATSWarningProps) {
+  const { i18n } = useTranslation()
+  const isRTL = i18n.language === 'ar'
+
   const getIcon = () => {
     switch (check.severity) {
       case 'critical':
@@ -31,7 +35,7 @@ export default function ATSWarning({ check, compact = false }: ATSWarningProps) 
 
   if (compact) {
     return (
-      <div className={`flex items-start gap-2 p-2 rounded border text-xs ${getColors()}`}>
+      <div className={`flex items-start ${isRTL ? 'flex-row-reverse' : ''} gap-2 p-2 rounded border text-xs ${getColors()}`}>
         {getIcon()}
         <div className="flex-1">
           <p className="font-medium">{check.message}</p>
@@ -41,12 +45,12 @@ export default function ATSWarning({ check, compact = false }: ATSWarningProps) 
   }
 
   return (
-    <div className={`flex items-start gap-3 p-3 rounded-lg border ${getColors()}`}>
+    <div className={`flex items-start ${isRTL ? 'flex-row-reverse' : ''} gap-3 p-3 rounded-lg border ${getColors()}`}>
       {getIcon()}
-      <div className="flex-1">
+      <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
         <p className="text-sm font-medium mb-1">{check.message}</p>
         {check.suggestion && (
-          <p className="text-xs opacity-90">💡 {check.suggestion}</p>
+          <p className={`text-xs opacity-90 ${isRTL ? 'mr-1' : 'ml-1'}`}>💡 {check.suggestion}</p>
         )}
       </div>
     </div>

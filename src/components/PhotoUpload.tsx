@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { Camera, X, Upload } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface PhotoUploadProps {
   photo?: string
@@ -8,6 +9,7 @@ interface PhotoUploadProps {
 }
 
 export default function PhotoUpload({ photo, onPhotoChange, onPhotoRemove }: PhotoUploadProps) {
+  const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
 
@@ -78,7 +80,7 @@ export default function PhotoUpload({ photo, onPhotoChange, onPhotoRemove }: Pho
             type="button"
             onClick={onPhotoRemove}
             className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-colors"
-            aria-label="Remove photo"
+            aria-label={t('ui.removePhoto')}
           >
             <X className="w-4 h-4" />
           </button>
@@ -86,7 +88,7 @@ export default function PhotoUpload({ photo, onPhotoChange, onPhotoRemove }: Pho
             type="button"
             onClick={handleClick}
             className="absolute bottom-0 right-0 bg-primary-600 hover:bg-primary-700 text-white rounded-full p-2 shadow-lg transition-colors"
-            aria-label="Change photo"
+            aria-label={t('ui.changePhoto')}
           >
             <Upload className="w-4 h-4" />
           </button>
@@ -128,7 +130,7 @@ export default function PhotoUpload({ photo, onPhotoChange, onPhotoRemove }: Pho
         accept="image/*"
         onChange={handleFileChange}
         className="hidden"
-        aria-label="Upload photo"
+        aria-label={t('ui.uploadPhoto')}
       />
       
       {photo && (

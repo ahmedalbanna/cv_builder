@@ -2,6 +2,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { GripVertical } from 'lucide-react'
 import { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface DraggableSectionProps {
   id: string
@@ -10,6 +11,7 @@ interface DraggableSectionProps {
 }
 
 export default function DraggableSection({ id, title, children }: DraggableSectionProps) {
+  const { t } = useTranslation()
   const {
     attributes,
     listeners,
@@ -34,7 +36,7 @@ export default function DraggableSection({ id, title, children }: DraggableSecti
               {...attributes}
               {...listeners}
               className="cursor-grab active:cursor-grabbing p-1 hover:bg-gray-100 rounded transition-colors"
-              title="Drag to reorder"
+              title={t('ui.dragToReorder')}
             >
               <GripVertical className="w-5 h-5 text-gray-400" />
             </button>

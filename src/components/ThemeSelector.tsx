@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { useCV } from '../contexts/CVContext'
 import { predefinedThemes, ColorTheme } from '../types/theme'
 import { Palette, Check } from 'lucide-react'
 
 export default function ThemeSelector() {
+  const { t } = useTranslation()
   const { cvData, updateCVData } = useCV()
   const [showCustomPicker, setShowCustomPicker] = useState(false)
   const [customTheme, setCustomTheme] = useState<ColorTheme>({
@@ -36,7 +38,7 @@ export default function ThemeSelector() {
     <div className="card">
       <div className="flex items-center gap-2 mb-4">
         <Palette className="w-5 h-5 text-primary-600" />
-        <h3 className="text-lg font-semibold text-gray-900">Color Theme</h3>
+        <h3 className="text-lg font-semibold text-gray-900">{t('ui.colorTheme')}</h3>
       </div>
 
       {/* Predefined Themes */}
@@ -93,7 +95,7 @@ export default function ThemeSelector() {
             <div className="flex items-center gap-2">
               <Palette className="w-4 h-4 text-gray-600" />
               <span className="text-sm font-medium text-gray-700">
-                Custom Colors
+                {t('ui.customColors')}
               </span>
             </div>
             {currentTheme.isCustom && (
@@ -106,7 +108,7 @@ export default function ThemeSelector() {
           <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="label-text">Primary Color</label>
+                <label className="label-text">{t('ui.primaryColor')}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -129,7 +131,7 @@ export default function ThemeSelector() {
               </div>
 
               <div>
-                <label className="label-text">Secondary Color</label>
+                <label className="label-text">{t('ui.secondaryColor')}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -152,7 +154,7 @@ export default function ThemeSelector() {
               </div>
 
               <div>
-                <label className="label-text">Accent Color</label>
+                <label className="label-text">{t('ui.accentColor')}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -175,7 +177,7 @@ export default function ThemeSelector() {
               </div>
 
               <div>
-                <label className="label-text">Text Color</label>
+                <label className="label-text">{t('ui.textColor')}</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -202,7 +204,7 @@ export default function ThemeSelector() {
               onClick={applyCustomTheme}
               className="btn-primary w-full mt-2"
             >
-              Apply Custom Theme
+              {t('ui.applyCustomTheme')}
             </button>
           </div>
         )}

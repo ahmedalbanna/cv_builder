@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin, Globe, Linkedin, Github, Terminal, Code, Briefcase, GraduationCap } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export default function TechTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { personalInfo, workExperience, education, skills, projects, certifications, languages } = data
 
   return (
@@ -83,7 +85,7 @@ export default function TechTemplate({ data }: Props) {
           <div className="mb-6">
             <h2 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
               <Code className="w-5 h-5" />
-              <span>{'<skills>'}</span>
+              <span>{'<'}{t('preview.skills')}{'>'}  </span>
             </h2>
             <div className="flex flex-wrap gap-2 ml-6 mb-2">
               {skills.map((skill) => (
@@ -95,7 +97,7 @@ export default function TechTemplate({ data }: Props) {
                 </span>
               ))}
             </div>
-            <p className="text-green-400 ml-0">{'</skills>'}</p>
+            <p className="text-green-400 ml-0">{'</'}{t('preview.skills')}{'>'}</p>
           </div>
         )}
 
@@ -104,7 +106,7 @@ export default function TechTemplate({ data }: Props) {
           <div className="mb-6">
             <h2 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
               <Briefcase className="w-5 h-5" />
-              <span>{'<experience>'}</span>
+              <span>{'<'}{t('preview.experience')}{'>'}</span>
             </h2>
             <div className="space-y-4 ml-6">
               {workExperience.map((exp) => (
@@ -124,7 +126,7 @@ export default function TechTemplate({ data }: Props) {
                 </div>
               ))}
             </div>
-            <p className="text-green-400 mt-2">{'</experience>'}</p>
+            <p className="text-green-400 mt-2">{'</'}{t('preview.experience')}{'>'}</p>
           </div>
         )}
 
@@ -133,7 +135,7 @@ export default function TechTemplate({ data }: Props) {
           <div className="mb-6">
             <h2 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
               <Terminal className="w-5 h-5" />
-              <span>{'<projects>'}</span>
+              <span>{'<'}{t('preview.projects')}{'>'}</span>
             </h2>
             <div className="space-y-3 ml-6">
               {projects.map((project) => (
@@ -155,7 +157,7 @@ export default function TechTemplate({ data }: Props) {
                 </div>
               ))}
             </div>
-            <p className="text-green-400 mt-2">{'</projects>'}</p>
+            <p className="text-green-400 mt-2">{'</'}{t('preview.projects')}{'>'}</p>
           </div>
         )}
 
@@ -164,7 +166,7 @@ export default function TechTemplate({ data }: Props) {
           <div className="mb-6">
             <h2 className="text-xl font-bold text-green-400 mb-3 flex items-center gap-2">
               <GraduationCap className="w-5 h-5" />
-              <span>{'<education>'}</span>
+              <span>{'<'}{t('preview.education')}{'>'}</span>
             </h2>
             <div className="space-y-3 ml-6">
               {education.map((edu) => (
@@ -179,7 +181,7 @@ export default function TechTemplate({ data }: Props) {
                 </div>
               ))}
             </div>
-            <p className="text-green-400 mt-2">{'</education>'}</p>
+            <p className="text-green-400 mt-2">{'</'}{t('preview.education')}{'>'}</p>
           </div>
         )}
 
@@ -188,7 +190,7 @@ export default function TechTemplate({ data }: Props) {
           {certifications.length > 0 && (
             <div>
               <h2 className="text-lg font-bold text-green-400 mb-3">
-                {'<certifications>'}
+                {'<'}{t('preview.certifications')}{'>'} 
               </h2>
               <div className="space-y-2 ml-4">
                 {certifications.map((cert) => (
@@ -198,14 +200,14 @@ export default function TechTemplate({ data }: Props) {
                   </div>
                 ))}
               </div>
-              <p className="text-green-400 mt-2">{'</certifications>'}</p>
+              <p className="text-green-400 mt-2">{'</'}{t('preview.certifications')}{'>'}</p>
             </div>
           )}
 
           {languages.length > 0 && (
             <div>
               <h2 className="text-lg font-bold text-green-400 mb-3">
-                {'<languages>'}
+                {'<'}{t('preview.languages')}{'>'} 
               </h2>
               <div className="space-y-1 ml-4">
                 {languages.map((lang) => (
@@ -215,7 +217,7 @@ export default function TechTemplate({ data }: Props) {
                   </div>
                 ))}
               </div>
-              <p className="text-green-400 mt-2">{'</languages>'}</p>
+              <p className="text-green-400 mt-2">{'</'}{t('preview.languages')}{'>'}</p>
             </div>
           )}
         </div>

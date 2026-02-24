@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Settings, Check, AlertCircle, Loader2, X } from 'lucide-react'
 import { useAI } from '../contexts/AIContext'
 import { AI_CONFIG } from '../config/ai'
+import { useTranslation } from 'react-i18next'
 
 interface AISettingsPanelProps {
   isOpen: boolean
@@ -9,6 +10,7 @@ interface AISettingsPanelProps {
 }
 
 export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProps) {
+  const { t } = useTranslation()
   const {
     isConnected,
     isLoading,
@@ -48,7 +50,7 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
         <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
             <Settings className="w-5 h-5" />
-            AI Settings
+            {t('ui.aiSettings')}
           </h3>
           <button
             type="button"
@@ -64,16 +66,16 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
           {/* Connection Status */}
           <div className="p-4 rounded-lg border-2 border-gray-200">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-medium text-gray-900">Connection Status</h4>
+              <h4 className="font-medium text-gray-900">{t('ui.connectionStatus')}</h4>
               {isConnected ? (
                 <span className="flex items-center gap-2 text-green-600 text-sm font-medium">
                   <Check className="w-4 h-4" />
-                  Connected
+                  {t('ui.connected')}
                 </span>
               ) : (
                 <span className="flex items-center gap-2 text-red-600 text-sm font-medium">
                   <AlertCircle className="w-4 h-4" />
-                  Disconnected
+                  {t('ui.disconnected')}
                 </span>
               )}
             </div>
@@ -92,12 +94,12 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
               {isTesting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Testing...
+                  {t('ui.testing')}
                 </>
               ) : (
                 <>
                   <Check className="w-4 h-4" />
-                  Test Connection
+                  {t('ui.testConnection')}
                 </>
               )}
             </button>
@@ -105,7 +107,7 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
 
           {/* API Endpoint */}
           <div>
-            <label className="label-text">Ollama API Endpoint</label>
+            <label className="label-text">{t('ui.ollamaApiEndpoint')}</label>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -119,24 +121,24 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
                 className="btn-secondary"
                 disabled={localEndpoint === apiEndpoint}
               >
-                Update
+                {t('ui.update')}
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              Default: {AI_CONFIG.apiEndpoint}
+              {t('ui.default')} {AI_CONFIG.apiEndpoint}
             </p>
           </div>
 
           {/* Model Selection */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="label-text">AI Model</label>
+              <label className="label-text">{t('ui.aiModel')}</label>
               <button
                 onClick={handleRefreshModels}
                 disabled={isLoading || !isConnected}
                 className="text-sm text-primary-600 hover:text-primary-700 disabled:opacity-50"
               >
-                Refresh Models
+                {t('ui.refreshModels')}
               </button>
             </div>
             <select
@@ -161,25 +163,25 @@ export default function AISettingsPanel({ isOpen, onClose }: AISettingsPanelProp
             </select>
             <p className="text-xs text-gray-500 mt-1">
               {availableModels.length > 0
-                ? `${availableModels.length} model(s) available`
+                ? `${availableModels.length} ${t('ui.aiModel')}(s) available`
                 : 'Connect to see available models'}
             </p>
           </div>
 
           {/* Setup Instructions */}
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h4 className="font-medium text-blue-900 mb-2">📚 Setup Instructions</h4>
+            <h4 className="font-medium text-blue-900 mb-2">{t('ui.setupInstructions')}</h4>
             <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
               <li>Install Ollama from <a href="https://ollama.ai" target="_blank" rel="noopener noreferrer" className="underline">ollama.ai</a></li>
               <li>Run: <code className="bg-blue-100 px-1 rounded">ollama pull llama2</code></li>
               <li>Start Ollama service (it runs on port 11434 by default)</li>
-              <li>Click "Test Connection" above to verify</li>
+              <li>{t('ai.testConnection')}</li>
             </ol>
           </div>
 
           {/* Features Info */}
           <div className="p-4 bg-gray-50 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">✨ AI Features</h4>
+            <h4 className="font-medium text-gray-900 mb-2">{t('ui.aiFeatures')}</h4>
             <ul className="text-sm text-gray-700 space-y-1">
               <li>• Generate professional summaries</li>
               <li>• Create impactful job descriptions</li>

@@ -203,7 +203,7 @@ export default function ProjectsForm() {
                 <AISuggestionButton
                   onClick={handleGetAISuggestions}
                   size="sm"
-                  label="Improve with AI"
+                  label={t('ai.improveDescription')}
                 />
               )}
             </div>
@@ -268,13 +268,13 @@ export default function ProjectsForm() {
               />
             </div>
             <div>
-              <label className="label-text">GitHub URL</label>
+              <label className="label-text">{t('projects.githubUrl')}</label>
               <input
                 type="url"
                 value={formData.github || ''}
                 onChange={(e) => setFormData({ ...formData, github: e.target.value })}
                 className="input-field"
-                placeholder="https://github.com/user/repo"
+                placeholder={t('projects.placeholders.githubUrl')}
               />
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function ProjectsForm() {
         suggestions={suggestions}
         onApply={handleApplySuggestion}
         onRetry={handleGetAISuggestions}
-        title="AI Project Description Suggestions"
+        title={t('ai.projectDescriptionSuggestions')}
         error={suggestionError}
       />
     </div>

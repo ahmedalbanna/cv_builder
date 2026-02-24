@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CVState } from '../../types/cv'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import { getDateRange } from '../../utils/helpers'
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export default function MinimalistTemplate({ data }: Props) {
+  const { t } = useTranslation()
   const { personalInfo, workExperience, education, skills, projects, certifications, languages } = data
 
   return (
@@ -56,7 +58,7 @@ export default function MinimalistTemplate({ data }: Props) {
       {workExperience.length > 0 && (
         <div className="mb-8">
           <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-            Experience
+            {t('preview.experience')}
           </h2>
           <div className="space-y-6">
             {workExperience.map((exp) => (
@@ -81,7 +83,7 @@ export default function MinimalistTemplate({ data }: Props) {
       {education.length > 0 && (
         <div className="mb-8">
           <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-            Education
+            {t('preview.education')}
           </h2>
           <div className="space-y-4">
             {education.map((edu) => (
@@ -103,7 +105,7 @@ export default function MinimalistTemplate({ data }: Props) {
       {skills.length > 0 && (
         <div className="mb-8">
           <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-            Skills
+            {t('preview.skills')}
           </h2>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
@@ -124,7 +126,7 @@ export default function MinimalistTemplate({ data }: Props) {
       {projects.length > 0 && (
         <div className="mb-8">
           <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-            Projects
+            {t('preview.projects')}
           </h2>
           <div className="space-y-4">
             {projects.map((project) => (
@@ -144,7 +146,7 @@ export default function MinimalistTemplate({ data }: Props) {
         {certifications.length > 0 && (
           <div>
             <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-              Certifications
+              {t('preview.certifications')}
             </h2>
             <div className="space-y-2">
               {certifications.map((cert) => (
@@ -160,7 +162,7 @@ export default function MinimalistTemplate({ data }: Props) {
         {languages.length > 0 && (
           <div>
             <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-medium">
-              Languages
+              {t('preview.languages')}
             </h2>
             <div className="space-y-1">
               {languages.map((lang) => (

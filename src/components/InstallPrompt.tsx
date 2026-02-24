@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Download, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -7,6 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function InstallPrompt() {
+  const { t } = useTranslation()
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showPrompt, setShowPrompt] = useState(false)
   const [isIOS, setIsIOS] = useState(false)
@@ -85,14 +87,14 @@ export default function InstallPrompt() {
             <Download className="w-6 h-6 text-primary-600" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-gray-900 mb-1">Install CV Builder</h3>
+            <h3 className="font-semibold text-gray-900 mb-1">{t('installPrompt.title')}</h3>
             <p className="text-sm text-gray-600 mb-2">
-              Install this app on your iPhone:
+              {t('installPrompt.iosDescription')}
             </p>
             <ol className="text-xs text-gray-600 space-y-1">
-              <li>1. Tap the Share button <span className="inline-block">□↑</span></li>
-              <li>2. Scroll down and tap "Add to Home Screen"</li>
-              <li>3. Tap "Add" to install</li>
+              <li>{t('installPrompt.iosStep1')} <span className="inline-block">□↑</span></li>
+              <li>{t('installPrompt.iosStep2')}</li>
+              <li>{t('installPrompt.iosStep3')}</li>
             </ol>
           </div>
         </div>
@@ -114,22 +116,22 @@ export default function InstallPrompt() {
           <Download className="w-6 h-6 text-primary-600" />
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 mb-1">Install CV Builder</h3>
+          <h3 className="font-semibold text-gray-900 mb-1">{t('installPrompt.title')}</h3>
           <p className="text-sm text-gray-600 mb-3">
-            Install this app for quick access and offline use
+            {t('installPrompt.androidDescription')}
           </p>
           <div className="flex gap-2">
             <button
               onClick={handleInstallClick}
               className="btn-primary text-sm py-2 px-4"
             >
-              Install
+              {t('installPrompt.installButton')}
             </button>
             <button
               onClick={handleDismiss}
               className="btn-secondary text-sm py-2 px-4"
             >
-              Not now
+              {t('installPrompt.notNowButton')}
             </button>
           </div>
         </div>

@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Download } from 'lucide-react'
 import { useCoverLetter } from '../../contexts/CoverLetterContext'
 import { exportCoverLetterToPDF } from '../../utils/pdfExport'
 
 export default function CoverLetterExportButton() {
+  const { t } = useTranslation()
   const { coverLetterData } = useCoverLetter()
 
   const handleExport = async () => {
@@ -19,7 +21,7 @@ export default function CoverLetterExportButton() {
       className="btn-primary flex items-center gap-2"
     >
       <Download className="w-4 h-4" />
-      Export PDF
+      {t('coverLetter.exportPDF')}
     </button>
   )
 }
